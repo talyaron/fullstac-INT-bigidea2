@@ -1,22 +1,39 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+
 import './App.css';
 
 function App() {
+  const [counter, setCounter] = useState(0); //state
+  const [text, setText] = useState('');
+  const [color, setColor] = useState('#000000');
+
+  function handleClick(e) {
+
+    setCounter(counter + 1) //render the DOM again, and set a new value for counter
+
+    console.log('click', counter)
+  }
+
+  function handleInput(e){
+    const input = e.target.value;
+    setText(input)
+  }
+
+  function handleColor(e){
+    const color = e.target.value;
+    setColor(color);
+  }
+
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>{text}</h1>
+        <p>Tal's App</p>
+        <button onClick={handleClick}>Add</button>
+        <p>Added {counter} times</p>
+        <input type='text' placeholder='write some text' onKeyUp={handleInput} />
+        <input type="color" onKeyUp={handleColor} />
       </header>
     </div>
   );
