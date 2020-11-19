@@ -37,8 +37,7 @@
   }
 }
 
-input[type="text"] {
-  font-size: 2rem;
-  padding: 10px;
-  border-radius: 6px;
+input[type=text]{
+  font-size:2rem;
+  padding:10px;
 }
