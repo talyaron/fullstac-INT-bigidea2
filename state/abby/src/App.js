@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import './App.css';
 
-let colorString;
+
 function App() {
   const [counter, setCounter] = useState(0); //state
   const [text, setText] = useState('');
@@ -35,7 +35,7 @@ function App() {
         <button onClick={handleClick}>Add</button>
         <p>Added {counter} times</p>
         <input type='text' placeholder='write some text' onKeyUp={handleInput} />
-        <input type="color" onClick={handleColor} />
+        <input type="color" onChange={handleColor} />
         <p>color selected: {color}</p>
       </header>
     </div>
