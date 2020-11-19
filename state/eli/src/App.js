@@ -9,7 +9,7 @@ import './App.css';
 function App() {
   const [counter, setCounter] = useState(0); //state
   const [text, setText] = useState('');
-  const [color, setColor] = useState('red')
+  const [color, setColor] = useState("#282c34W")
 
   function handleClick(e) {
 
