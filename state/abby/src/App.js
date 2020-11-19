@@ -21,6 +21,7 @@ function App() {
 
   function handleColor(e){
     const color = e.target.value;
+    console.log(color)
     setColor(color);
   }
 
@@ -29,11 +30,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>{text}</h1>
-        <p>Tal's App</p>
+        <p>Abby's App</p>
         <button onClick={handleClick}>Add</button>
         <p>Added {counter} times</p>
         <input type='text' placeholder='write some text' onKeyUp={handleInput} />
-        <input type="color" onKeyUp={handleColor} />
+        <input type="color" onClick={handleColor} />
       </header>
     </div>
   );
