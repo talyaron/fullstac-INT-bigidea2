@@ -37,12 +37,14 @@ function getName(e){
     login = true
   }else{
     sendChat()
-  }  
+  }
 }
 
 function sendChat(){
   let message = document.getElementById("message").value
 
+  document.getElementById("chatBox").style.visibility = `visible`
+  
   document.getElementById("chatBox").innerHTML += `
   <div className="chat" style="border:5px solid ${colour}">${name}: ${message}</div>
   `
