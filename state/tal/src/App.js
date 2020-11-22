@@ -30,6 +30,7 @@ function App() {
         <button onClick={handleClick}>Add</button>
         <p>Added {counter} times</p>
         <input type='text' placeholder='write some text' onKeyUp={handleInput} />
+        <input type='color' ></input>
       </header>
     </div>
   );
