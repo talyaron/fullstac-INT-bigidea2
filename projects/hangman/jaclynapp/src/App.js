@@ -1,59 +1,78 @@
 import './App.css';
 import { DB } from './Firebase/firebaseConfig';
-import {useEffect, useState} from 'react';
+import { useState } from 'react';
 
 function App() {
   const [gameId, setGameId] = useState('');
-  const [isHidden, setIsHidden] = useState(false);
+  const [showCreateGame, setShowCreateGame] = useState(true);
 
-
-function handleNewGame() {
-  let randomId=Math.floor(Math.random()*10000+1);
+  function handleNewGame() {
+    let randomId = Math.floor(Math.random() * 10000 + 1);
     setGameId(randomId);
-  DB.collection('games').add({gameId:randomId})
-    .then((game) => { console.log(game.id) })
-    .catch(e => { console.error(e) })
-    hide()
-}
-   
-const uid = function () {
-  return Date.now().toString(36) + Math.random().toString(36).substr(2);
-}
-
-function getUserUID() {
-    //get the uid
-    let userUID = sessionStorage.getItem('userUID');
-    if (userUID === null) {
-        userUID = uid();
-        //create a uid
-        sessionStorage.setItem('userUID', userUID);
-        console.log(userUID);
-    }
-    return userUID;
-    hideTwo()
+    DB.collection('games').add({ gameId: randomId.toString() })
+      .then((game) => { console.log(game.id) })
+      .catch(e => { console.error(e) })
+    setShowCreateGame(false)
   }
 
-  function hide() {
-  document.getElementById('submit').style.display = 'none';
-}
+  function joinGame(e) {
+    e.preventDefault();
 
-function hideTwo() {
-  document.getElementById('submit2').style.display = 'none';
-}
+    let gameId = e.target.children.gameid.value
+    console.log(gameId)
+
+    let userId = createUid();
+    sessionStorage.setItem('userId', userId)
+
+    DB.collection('games')
+    .where('gameId','==', gameId.toString())
+    .limit(1)
+    .get()
+    .then(gamesDB=>{
+      gamesDB.forEach(gameDB=>{
+        console.log(gameDB.data())
+        let {players} = gameDB.data();
+        if(players === undefined){
+          players = [userId]
+        } 
+
+        if(!players.includes(userId)){
+          players.push(userId)
+        }
+
+        console.log(players)
+        DB.collection('games').doc(gameDB.id).update({players})
+        .then(()=>{console.log('stored player', userId, 'in game number', gameDB.id)})
+        .catch(e=>{
+          console.error(e)
+        })
+      })
+      
+    })
+    .catch(e=>{
+      console.error(e)
+    })
+
+  }
+
 
   return (
     <div className="App">
-        <button id ="submit" onClick={handleNewGame} 
-        > Generate Game Id and Submit</button>
-        <p id="gameId>"> Game ID:{gameId} </p>
-      <input type="text" id="input"></input>
-      <input type="submit" id="submit2"></input>
-      <p>Submit Game ID</p>
-      <input type="text" id="user"></input>
-      <input type="submit" id="username"></input>
-      <p>Submit Username</p>
+      <button id="submit" onClick={handleNewGame} className={showCreateGame ? '' : 'hidden'}>
+        Generate Game Id and Submit
+      </button>
+      <p id="gameId>"> Game ID:{gameId} </p>
+      <form onSubmit={joinGame} >
+        <input type='text' name='gameid' placeholder='Enter game number' />
+        <button type='submit'>Join</button>
+      </form>
     </div>
   );
 }
 
 export default App;
+
+function createUid() {
+  return Math.random().toString(16).slice(2)
+}
+
