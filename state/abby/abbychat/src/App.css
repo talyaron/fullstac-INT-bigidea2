@@ -1,0 +1,28 @@
+.App {
+  text-align: left;
+}
+
+.App-header {
+  background-color: #282c34;
+  height: 30vh;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+#submitButton {
+  height: 31vh;
+  width: 12vh;
+}
+
+#nameBox {
+  height: 8vh;
+  width: 44vh;
+  display: block;
+}
+
+#textBox {
+  width: 32vh;
+}
