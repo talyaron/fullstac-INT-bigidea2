@@ -3,16 +3,16 @@ import 'firebase/firestore';
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBEumZUTCL3Jc9pt7_CjiSVTxmz9aMqSvo",
-    authDomain: "synthesistalyaron.firebaseapp.com",
-    databaseURL: "https://synthesistalyaron.firebaseio.com",
-    projectId: "synthesistalyaron",
-    storageBucket: "synthesistalyaron.appspot.com",
-    messagingSenderId: "799655218679",
-    appId: "1:799655218679:web:d0118a27fd956d12"
-  };
-  
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+  apiKey: "AIzaSyB5GKCs1yMzuxICTHXId5DptNZA1aGQHTY",
+  authDomain: "tal-fb1.firebaseapp.com",
+  databaseURL: "https://tal-fb1.firebaseio.com",
+  projectId: "tal-fb1",
+  storageBucket: "tal-fb1.appspot.com",
+  messagingSenderId: "823131005125",
+  appId: "1:823131005125:web:00b0c01f14f3922b3410ac"
+};
 
-  export const DB = firebase.firestore()
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+export const DB = firebase.firestore()
