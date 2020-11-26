@@ -4,6 +4,7 @@ import { DB } from './components/firebase/firebaseConfig'
 import { useState, useEffect } from 'react';
 let number;
 let counter;
+let team;
 
 function App() {
   const [gameId, setGameId] = useState('');
@@ -44,36 +45,29 @@ function App() {
     sessionStorage.setItem('UID', UID)
     DB.collection('games').doc(gameId).get().then(e => {
       let players = e.data().players;
-      let counter = e.data().counter;
+      counter = e.data().counter;
       if (counter % 2 == 0) {
-        players[UID] = { team: 1 };
-        counter += 1;
+        team = 1;
       } else {
-        players[UID] = { team: 2 };
-        counter += 1;
+        team = 2;
       }
-      players[UID] = { username }
-      players[UID] = { team: counter }
-      counter+=1
-      DB.collection('games').doc(gameId).update({ players: players, counter:counter})
-      console.log(e.data())
+      console.log(team + 'TEAM')
+      console.log(counter +'counter')
       
+      players[UID] = { username, team }
+      console.log(players[UID])
+
+      counter += 1
+      DB.collection('games').doc(gameId).update({ players: players, counter: counter })
+      console.log(e.data())
+
 
     })
     hide()
 
   }
 
-  DB.collection('games').doc(gameId).onSnapshot(e => {
-    let counter = e.data().counter;
-    if (counter % 2 == 0) {
-      players[UID] = { team: 1 };
-      counter += 1;
-    } else {
-      players[UID] = { team: 2 };
-      counter += 1;
-    }
-  })
+
 
 
   function addDoc() {
