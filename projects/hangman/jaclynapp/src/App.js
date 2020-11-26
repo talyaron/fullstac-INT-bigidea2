@@ -18,7 +18,8 @@ function App() {
   function joinGame(e) {
     e.preventDefault();
 
-    let gameId = e.target.children.gameid.value
+    let gameId = e.target.children.gameid.value;
+    let username = e.target.children.username.value;
     console.log(gameId)
 
     let userId = createUid();
@@ -39,6 +40,8 @@ function App() {
         if(!players.includes(userId)){
           players.push(userId)
         }
+
+        players[userId] = {username};
 
         console.log(players)
         DB.collection('games').doc(gameDB.id).update({players})
@@ -65,6 +68,8 @@ function App() {
       <form onSubmit={joinGame} >
         <input type='text' name='gameid' placeholder='Enter game number' />
         <button type='submit'>Join</button>
+        <input type='text' name='username' placeholder='Enter username' />
+        <button type='submit'>submit</button>
       </form>
     </div>
   );

@@ -16,42 +16,66 @@ function App() {
   }
 
   function joinGame(e) {
-    e.preventDefault();
+    try {
+      e.preventDefault();
 
-    let gameId = e.target.children.gameid.value
-    console.log(gameId)
+      //get user name and game id from the user
+      let gameId = e.target.children.gameid.value;
+      let username = e.target.children.username.value;
 
-    let userId = createUid();
-    sessionStorage.setItem('userId', userId)
+      //create user id, and store it on the sessionStorage
 
-    DB.collection('games')
-    .where('gameId','==', gameId.toString())
-    .limit(1)
-    .get()
-    .then(gamesDB=>{
-      gamesDB.forEach(gameDB=>{
-        console.log(gameDB.data())
-        let {players} = gameDB.data();
-        if(players === undefined){
-          players = [userId]
-        } 
+      let userId = getUserUID();
+      
+      console.log('before getting the things from db')
+      //get game from the db, and store user in players
+      DB.collection('games')
+        .where('gameId', '==', gameId.toString())
+        .limit(1)
+        .get()
+        .then(gamesDB => {
+          if (gamesDB.size === 0) {
+            alert("A game with this id dosn't exists")
+          } else {
 
-        if(!players.includes(userId)){
-          players.push(userId)
-        }
+            //set user to game on DB
 
-        console.log(players)
-        DB.collection('games').doc(gameDB.id).update({players})
-        .then(()=>{console.log('stored player', userId, 'in game number', gameDB.id)})
-        .catch(e=>{
+            gamesDB.forEach(gameDB => {
+              console.log(gameDB.data())
+
+              //extract players
+              let { players } = gameDB.data();
+
+              console.log(players)
+              //if players do not exist in DB
+              if (players === undefined) {
+                players = {};
+
+              }
+
+              //add the user to the players
+              players[userId] = { username };
+
+
+
+              console.log(players)
+
+              //store the players back to DB
+              DB.collection('games').doc(gameDB.id).update({ players })
+                .then(() => { console.log('stored player', userId, 'in game number', gameDB.id) })
+                .catch(e => {
+                  console.error(e)
+                })
+            })
+          }
+
+        })
+        .catch(e => {
           console.error(e)
         })
-      })
-      
-    })
-    .catch(e=>{
+    } catch (e) {
       console.error(e)
-    })
+    }
 
   }
 
@@ -64,6 +88,7 @@ function App() {
       <p id="gameId>"> Game ID:{gameId} </p>
       <form onSubmit={joinGame} >
         <input type='text' name='gameid' placeholder='Enter game number' />
+        <input type='text' name='username' placeholder='Enter your name' />
         <button type='submit'>Join</button>
       </form>
     </div>
@@ -72,6 +97,22 @@ function App() {
 
 export default App;
 
-function createUid() {
-  return Math.random().toString(16).slice(2)
+// function createUid() {
+//   return Math.random().toString(16).slice(2)
+// }
+
+const uid = function () {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
+//returns the uid
+function getUserUID() {
+    //get the uid
+    let userUID = sessionStorage.getItem('userUID');
+    if (userUID === null) {
+        userUID = uid();
+        //create a uid
+        sessionStorage.setItem('userUID', userUID);
+    }
+    return userUID;
 }
