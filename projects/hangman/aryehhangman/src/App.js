@@ -3,7 +3,7 @@ import './App.css';
 import { DB } from './components/firebase/firebaseConfig'
 import { useState, useEffect } from 'react';
 let number;
-
+let counter;
 
 function App() {
   const [gameId, setGameId] = useState('');
@@ -27,12 +27,13 @@ function App() {
 
 
   );
-  
-  
-  
+
+
+
   function hide() {
     setIsHide(true)
   }
+
   function getGameId(e) {
     e.preventDefault();
     let username = e.target.children.username.value;
@@ -40,28 +41,51 @@ function App() {
     console.log(username)
     let UID = Math.random().toString(36).substr(2, 9);
     console.log(UID)
-    sessionStorage.setItem('UID',UID)
-    DB.collection('games').doc(gameId).get().then(e=>{
-      let players= e.data().players;
-      
-      players[UID] = {username}
-      DB.collection('games').doc(gameId).update({players:players})
+    sessionStorage.setItem('UID', UID)
+    DB.collection('games').doc(gameId).get().then(e => {
+      let players = e.data().players;
+      let counter = e.data().counter;
+      if (counter % 2 == 0) {
+        players[UID] = { team: 1 };
+        counter += 1;
+      } else {
+        players[UID] = { team: 2 };
+        counter += 1;
+      }
+      players[UID] = { username }
+      players[UID] = { team: counter }
+      counter+=1
+      DB.collection('games').doc(gameId).update({ players: players, counter:counter})
       console.log(e.data())
+      
 
     })
     hide()
 
   }
+
+  DB.collection('games').doc(gameId).onSnapshot(e => {
+    let counter = e.data().counter;
+    if (counter % 2 == 0) {
+      players[UID] = { team: 1 };
+      counter += 1;
+    } else {
+      players[UID] = { team: 2 };
+      counter += 1;
+    }
+  })
+
+
   function addDoc() {
 
     number = Math.floor(Math.random() * 9000) + 1000;
     number = number.toString()
     setGameId(number);
 
-    DB.collection('games').doc(number).set({ gameId: number,players:{}})
+    DB.collection('games').doc(number).set({ gameId: number, players: {}, counter: 0 })
       .then((game) => {
         console.log(game.id)
-        
+
       })
       .catch(e => { console.error(e) });
 
