@@ -3,12 +3,10 @@ import { DB } from './firebaseConfig';
 import { useState } from 'react'
 
 function App() {
-
   const [gameId, setGameId] = useState('')
   const [isHidden, setIsHidden] = useState(false);
+  //let [playersState, setPlayers] = useState('')
 
-  let enteredGameId
-  let name
   let userUID
 
   function handleInput() {
@@ -17,26 +15,93 @@ function App() {
     console.log(generatedId);
     setGameId(generatedId);
     //adding the collection and game ID to the database 
-    DB.collection('games').add({ gameId: generatedId })
+    DB.collection('games').add({ gameId: generatedId.toString() })
       .then((game) => { console.log(game.id) })
       .catch(e => { console.error(e) })
     //hiding the new game button 
     //document.getElementById('newGame').style.display = "none";
-    handleHideMe()
-  }
-
-  function handleHideMe() {
     setIsHidden(true)
   }
 
-  function handleGameInfo() {
-    gameUpdate()
-    enteredGameId = document.getElementById('gameId').value
-    getUserUID();
-    getName();
-    DB.collection('games').add({ enteredGameId: enteredGameId, userUID: userUID, name: name })
-      .catch(e => { console.error(e) })
+  let counter = 0
+  let teamNumber 
+  //going to the database 
+  function gameUpdate(e) {
+    e.preventDefault();
+    try {
+
+      //get user name and game id from the user
+      let gameId = document.getElementById('gameId').value;
+      let username = document.getElementById('name').value;
+
+      //create user id, and store it on the sessionStorage
+
+      let userId = getUserUID();
+
+      console.log('before getting the things from db')
+      //get game from the db, and store user in players
+      DB.collection('games')
+        .where('gameId', '==', gameId.toString())
+        .limit(1)
+        .get()
+        .then(gamesDB => {
+          if (gamesDB.size === 0) {
+            alert("A game with this id dosn't exists")
+          } else {
+            //set user to game on DB
+            if (counter % 2 == 0) {
+              teamNumber = 1;
+            } else {
+              teamNumber = 2;
+            }
+            gamesDB.forEach(gameDB => {
+              console.log(gameDB.data())
+              //extract players
+              let { players } = gameDB.data();
+
+              console.log(players)
+              //if players do not exist in DB
+              if (players === undefined) {
+                players = {};
+              }
+              //add the user to the players
+              players[userId] = { username, teamNumber };
+
+              counter++
+
+              console.log(players)
+
+              //store the players back to DB
+              DB.collection('games').doc(gameDB.id).update({ players })
+                .then(() => { console.log('stored player', userId, 'in game number', gameDB.id) })
+                .catch(e => {
+                  console.error(e)
+                })
+            })
+          }
+        })
+        .catch(e => {
+          console.error(e)
+        })
+    } catch (e) {
+      console.error(e)
+    }
+    //getPlayers();
   }
+  /*function getPlayers() {
+    DB.collection('games').onSnapshot(gamesDB => {
+      gamesDB.forEach(gameDB => {
+        let player = gameDB.data().players
+        console.log(player)
+        let playerArray = []
+        playerArray.push(player)
+        setPlayers(playerArray);
+
+        // let playerDiv = document.getElementById('playersWrapper')
+        // playerDiv.innerHTML += `<p>${player}</p>`
+      })
+    })
+  }*/
 
   const uid = function () {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -53,45 +118,6 @@ function App() {
     return userUID;
   }
 
-  function getName() {
-    name = document.getElementById('name').value;
-    console.log(name);
-  }
-  //going to the database 
-  function gameUpdate() {
-    DB.collection('games')
-      .where('gameId', '==', gameId.toString())
-      .limit(1)
-      .get()
-      .then(gamesDB => {
-
-        if (gamesDB.size === 0) {
-          alert("A game with this id doesn't exist")
-        } else {
-          gamesDB.forEach(gameDB => {
-            console.log(gameDB.data())
-
-            let { players } = gameDB.data();
-            console.log(players)
-
-            if (players === undefined) {
-              players = {};
-            }
-            players[userUID] = { name };
-            console.log(players);
-            DB.collection('games').doc(gameDB.id).update({ players })
-              .then(() => { console.log('stored player', userUID, 'in game number', gameDB.id) })
-              .catch(e => {
-                console.error(e)
-              })
-            })
-          }
-        })
-        .catch(e => {
-          console.error(e)
-        })
-
-        } 
 
   return (
     <div className="App">
@@ -99,7 +125,8 @@ function App() {
       <p id='randomNumber'>Game ID: {gameId}</p>
       <input type='text' id='gameId' placeholder='Enter Game ID' />
       <input type='text' id='name' placeholder='Enter Your Name' />
-      <input type='submit' value='Submit' onClick={handleGameInfo} />
+      <input type='submit' value='Submit' onClick={gameUpdate} />
+      <div id="playersWrapper">Players: </div>
     </div>
   );
 }
