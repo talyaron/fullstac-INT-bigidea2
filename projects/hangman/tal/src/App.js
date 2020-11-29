@@ -5,7 +5,9 @@ import { useState } from 'react';
 function App() {
   const [gameId, setGameId] = useState('');
   const [showCreateGame, setShowCreateGame] = useState(true);
-  const [playersDom, setPlayersDom] = useState([])
+  const [playersDom, setPlayersDom] = useState([]);
+  const [team1, setTeam1] = useState([]);
+  const [team2, setTeam2] = useState([]);
 
 
 
@@ -65,7 +67,7 @@ function App() {
 
               console.log(players);
 
-              listenToPlayers(gameDB.id, setPlayersDom);
+              listenToGame(gameDB.id, setPlayersDom, setTeam1, setTeam2);
               
               sessionStorage.setItem('gameUniqueId', gameDB.id)
 
@@ -104,6 +106,20 @@ function App() {
         return (<p key={index}>{player.username}</p>)
       })}
       <button onClick={() => { createTwoGroups( playersDom) }}>Create groups</button>
+      <div className='teamsWrapper'>
+        <div className='team'>
+          <h2>Team 1</h2>
+          {team1.map((member,index)=>{
+            return(<p key={index}>{member.username}</p>)
+          })}
+        </div>
+        <div className='team'>
+          <h2>Team 2</h2>
+          {team2.map((member,index)=>{
+            return(<p key={index}>{member.username}</p>)
+          })}
+        </div>
+      </div>
     </div>
   );
 }
@@ -131,10 +147,16 @@ function getUserUID() {
 }
 
 
-function listenToPlayers(gameUniqueId, setPlayersDom) {
+function listenToGame(gameUniqueId, setPlayersDom, setTeam1, setTeam2) {
   DB.collection('games').doc(gameUniqueId).onSnapshot(gameDB => {
 
     const players = gameDB.data().players
+    const team1 = gameDB.data().team1 || [];
+    const team2 = gameDB.data().team2 || [];
+    setTeam1(team1)
+    setTeam2(team2)
+
+
 
 
     const playersArr = [];
@@ -149,7 +171,7 @@ function listenToPlayers(gameUniqueId, setPlayersDom) {
 
 function createTwoGroups(playersDom) {
 
-  let players = [...playersDom], group1 = [], group2 = [], counter = playersDom.length + 2;
+  let players = [...playersDom], team1 = [], team2 = [], counter = playersDom.length + 2;
 
   let turn = 0;
 
@@ -164,23 +186,23 @@ function createTwoGroups(playersDom) {
 
     console.log(players.length, counter)
     if (turn === 0) {
-      group1.push(players[randomPlayer]);
+      team1.push(players[randomPlayer]);
       players.splice(randomPlayer, 1)
       turn = 1;
 
     } else {
-      group2.push(players[randomPlayer]);
+      team2.push(players[randomPlayer]);
       players.splice(randomPlayer, 1)
       turn = 0;
     }
   }
-  console.log(group1)
-  console.log(group2)
+  console.log(team1)
+  console.log(team2)
 
   //store it to DB
   let gameUniqueId = sessionStorage.getItem('gameUniqueId')
 
-  DB.collection('games').doc(gameUniqueId).update({group1, group2})
+  DB.collection('games').doc(gameUniqueId).update({team1, team2})
   .then(()=>{console.info('updated groups to DB')})
   .catch(e=>{console.error(e)})
 
