@@ -65,7 +65,9 @@ function App() {
 
               console.log(players);
 
-              listenToPlayers(gameDB.id, setPlayersDom)
+              listenToPlayers(gameDB.id, setPlayersDom);
+              
+              sessionStorage.setItem('gameUniqueId', gameDB.id)
 
               //store the players back to DB
               DB.collection('games').doc(gameDB.id).update({ players })
@@ -101,7 +103,7 @@ function App() {
       {playersDom.map((player, index) => {
         return (<p key={index}>{player.username}</p>)
       })}
-      <button onClick={() => { createTwoGroups('aa', playersDom) }}>Create groups</button>
+      <button onClick={() => { createTwoGroups( playersDom) }}>Create groups</button>
     </div>
   );
 }
@@ -137,7 +139,7 @@ function listenToPlayers(gameUniqueId, setPlayersDom) {
 
     const playersArr = [];
     for (let i in players) {
-      playersArr.push(players[i])
+      playersArr.push({username:players[i].username, userId:i})
     }
 
     setPlayersDom(playersArr)
@@ -145,7 +147,7 @@ function listenToPlayers(gameUniqueId, setPlayersDom) {
   })
 }
 
-function createTwoGroups(gameUniqueId, playersDom, setPlayersDom) {
+function createTwoGroups(playersDom) {
 
   let players = [...playersDom], group1 = [], group2 = [], counter = playersDom.length + 2;
 
@@ -174,6 +176,13 @@ function createTwoGroups(gameUniqueId, playersDom, setPlayersDom) {
   }
   console.log(group1)
   console.log(group2)
+
+  //store it to DB
+  let gameUniqueId = sessionStorage.getItem('gameUniqueId')
+
+  DB.collection('games').doc(gameUniqueId).update({group1, group2})
+  .then(()=>{console.info('updated groups to DB')})
+  .catch(e=>{console.error(e)})
 
 
 
