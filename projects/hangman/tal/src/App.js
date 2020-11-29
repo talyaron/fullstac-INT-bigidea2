@@ -1,6 +1,6 @@
 import './App.css';
 import { DB } from './functions/firebaseConfig';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 function App() {
   const [gameId, setGameId] = useState('');
@@ -8,12 +8,6 @@ function App() {
   const [playersDom, setPlayersDom] = useState([])
 
 
-  useEffect(()=>{
-
-    //listen to all players plaing the game
-
-
-  }, [])
 
 
 
@@ -37,7 +31,7 @@ function App() {
       //create user id, and store it on the sessionStorage
 
       let userId = getUserUID();
-      
+
       console.log('before getting the things from db')
       //get game from the db, and store user in players
       DB.collection('games')
@@ -104,9 +98,10 @@ function App() {
         <input type='text' name='username' placeholder='Enter your name' />
         <button type='submit'>Join</button>
       </form>
-      {playersDom.map((player, index)=>{
+      {playersDom.map((player, index) => {
         return (<p key={index}>{player.username}</p>)
       })}
+      <button onClick={() => { createTwoGroups('aa', playersDom) }}>Create groups</button>
     </div>
   );
 }
@@ -123,29 +118,63 @@ const uid = function () {
 
 //returns the uid
 function getUserUID() {
-    //get the uid
-    let userUID = sessionStorage.getItem('userUID');
-    if (userUID === null) {
-        userUID = uid();
-        //create a uid
-        sessionStorage.setItem('userUID', userUID);
-    }
-    return userUID;
+  //get the uid
+  let userUID = sessionStorage.getItem('userUID');
+  if (userUID === null) {
+    userUID = uid();
+    //create a uid
+    sessionStorage.setItem('userUID', userUID);
+  }
+  return userUID;
 }
 
 
-function listenToPlayers(gameUniqueId, setPlayersDom){
-  DB.collection('games').doc(gameUniqueId).onSnapshot(gameDB=>{
-   
-    const players = gameDB.data().players
-    
+function listenToPlayers(gameUniqueId, setPlayersDom) {
+  DB.collection('games').doc(gameUniqueId).onSnapshot(gameDB => {
 
-    const playersArr =[];
-    for(let i in players){
+    const players = gameDB.data().players
+
+
+    const playersArr = [];
+    for (let i in players) {
       playersArr.push(players[i])
     }
 
     setPlayersDom(playersArr)
 
   })
+}
+
+function createTwoGroups(gameUniqueId, playersDom, setPlayersDom) {
+
+  let players = [...playersDom], group1 = [], group2 = [], counter = playersDom.length + 2;
+
+  let turn = 0;
+
+  
+
+  while (players.length > 0 && counter>0) {
+
+    let randomPlayer = Math.floor(Math.random() * players.length);
+
+    
+    counter--
+
+    console.log(players.length, counter)
+    if (turn === 0) {
+      group1.push(players[randomPlayer]);
+      players.splice(randomPlayer, 1)
+      turn = 1;
+
+    } else {
+      group2.push(players[randomPlayer]);
+      players.splice(randomPlayer, 1)
+      turn = 0;
+    }
+  }
+  console.log(group1)
+  console.log(group2)
+
+
+
 }
