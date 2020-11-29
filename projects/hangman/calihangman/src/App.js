@@ -1,10 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
-import { DB } from './components/firebase/firebaseConfig'
+import { DB } from './functions/firebaseConfig';
 import { useState, useEffect } from 'react';
 let number;
-let counter;
-let team;
+
 
 function App() {
   const [gameId, setGameId] = useState('');
@@ -28,13 +27,12 @@ function App() {
 
 
   );
-
-
-
+  
+  
+  
   function hide() {
     setIsHide(true)
   }
-
   function getGameId(e) {
     e.preventDefault();
     let username = e.target.children.username.value;
@@ -42,44 +40,28 @@ function App() {
     console.log(username)
     let UID = Math.random().toString(36).substr(2, 9);
     console.log(UID)
-    sessionStorage.setItem('UID', UID)
-    DB.collection('games').doc(gameId).get().then(e => {
-      let players = e.data().players;
-      counter = e.data().counter;
-      if (counter % 2 == 0) {
-        team = 1;
-      } else {
-        team = 2;
-      }
-      console.log(team + 'TEAM')
-      console.log(counter +'counter')
+    sessionStorage.setItem('UID',UID)
+    DB.collection('games').doc(gameId).get().then(e=>{
+      let players= e.data().players;
       
-      players[UID] = { username, team }
-      console.log(players[UID])
-
-      counter += 1
-      DB.collection('games').doc(gameId).update({ players: players, counter: counter })
+      players[UID] = {username}
+      DB.collection('games').doc(gameId).update({players:players})
       console.log(e.data())
-
 
     })
     hide()
 
   }
-
-
-
-
   function addDoc() {
 
     number = Math.floor(Math.random() * 9000) + 1000;
     number = number.toString()
     setGameId(number);
 
-    DB.collection('games').doc(number).set({ gameId: number, players: {}, counter: 0 })
+    DB.collection('games').doc(number).set({ gameId: number,players:{}})
       .then((game) => {
         console.log(game.id)
-
+        
       })
       .catch(e => { console.error(e) });
 
@@ -89,3 +71,6 @@ function App() {
 }
 
 export default App;
+
+
+
