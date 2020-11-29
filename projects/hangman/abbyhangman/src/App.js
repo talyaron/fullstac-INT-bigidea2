@@ -1,11 +1,17 @@
 import './App.css';
 import { DB } from './firebaseConfig';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function App() {
   const [gameId, setGameId] = useState('')
   const [isHidden, setIsHidden] = useState(false);
+  const [playersDom, setPlayersDom] = useState([])
   //let [playersState, setPlayers] = useState('')
+
+/*useEffect(()=> {
+  //listen to the players 
+  
+}, [])*/
 
   let userUID
 
@@ -71,6 +77,8 @@ function App() {
 
               console.log(players)
 
+              listenToPlayers(gameDB.id, setPlayersDom)
+
               //store the players back to DB
               DB.collection('games').doc(gameDB.id).update({ players })
                 .then(() => { console.log('stored player', userId, 'in game number', gameDB.id) })
@@ -118,6 +126,18 @@ function App() {
     return userUID;
   }
 
+  function listenToPlayers(gameUniqueId, setPlayersDom) {
+    DB.collection('games').doc(gameUniqueId).onSnapshot(gameDB => {
+      console.log(gameDB.data())
+      const players = gameDB.data().players
+      console.log(players)
+      let playersArray = []
+      for(let i in players) {
+        playersArray.push(players[i])
+      }
+      setPlayersDom(playersArray)
+    })
+  }
 
   return (
     <div className="App">
@@ -127,6 +147,9 @@ function App() {
       <input type='text' id='name' placeholder='Enter Your Name' />
       <input type='submit' value='Submit' onClick={gameUpdate} />
       <div id="playersWrapper">Players: </div>
+      {playersDom.map((player, index)=> {
+        return(<p key={index}>{player.username}</p>)
+      })}
     </div>
   );
 }
