@@ -1,17 +1,13 @@
 import './App.css';
 import { DB } from './firebaseConfig';
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 function App() {
   const [gameId, setGameId] = useState('')
   const [isHidden, setIsHidden] = useState(false);
-  const [playersDom, setPlayersDom] = useState([])
-  //let [playersState, setPlayers] = useState('')
-
-/*useEffect(()=> {
-  //listen to the players 
-  
-}, [])*/
+  const [playersDom, setPlayersDom] = useState([]);
+  const [team1, setTeamOne] = useState([]);
+  const [team2, setTeamTwo] = useState([]);
 
   let userUID
 
@@ -25,13 +21,9 @@ function App() {
       .then((game) => { console.log(game.id) })
       .catch(e => { console.error(e) })
     //hiding the new game button 
-    //document.getElementById('newGame').style.display = "none";
     setIsHidden(true)
   }
 
-  //let counter = 0
-  //let teamNumber 
-  //going to the database 
   function gameUpdate(e) {
     e.preventDefault();
     try {
@@ -55,11 +47,6 @@ function App() {
             alert("A game with this id dosn't exists")
           } else {
             //set user to game on DB
-            /*if (counter % 2 == 0) {
-              teamNumber = 1;
-            } else {
-              teamNumber = 2;
-            }*/
             gamesDB.forEach(gameDB => {
               console.log(gameDB.data())
               //extract players
@@ -73,11 +60,20 @@ function App() {
               //add the user to the players
               players[userId] = { username };
 
-              //counter++
-
               console.log(players)
 
-              listenToPlayers(gameDB.id, setPlayersDom)
+              listenToGame(gameDB.id, setPlayersDom, setTeamOne, setTeamTwo)
+              //setPlayersDom because you are passing listenToGame this function, because this is under gameDB, it is for each game --> 
+              //for each game there is a new value for playersDom --> want to use setPlayersDom because it is being updated
+              //instead of the parameter being a variable, you can pass it a function --> use the function in a function
+              //under listenToGame you write "setPlayersDom(playersArray)" --> you can update playersDom there 
+              //gameDB.id is getting the id of the game from the database, which is defined above --> number is passed to the function 
+              // the reason need these parameters is because the value is different each game
+              //reason you need the functions is because the values are changing
+              //basically just passing the function the functions so that it can update the variables
+
+
+              sessionStorage.setItem("gameUniqueId", gameDB.id)
 
               //store the players back to DB
               DB.collection('games').doc(gameDB.id).update({ players })
@@ -94,22 +90,7 @@ function App() {
     } catch (e) {
       console.error(e)
     }
-    //getPlayers();
   }
-  /*function getPlayers() {
-    DB.collection('games').onSnapshot(gamesDB => {
-      gamesDB.forEach(gameDB => {
-        let player = gameDB.data().players
-        console.log(player)
-        let playerArray = []
-        playerArray.push(player)
-        setPlayers(playerArray);
-
-        // let playerDiv = document.getElementById('playersWrapper')
-        // playerDiv.innerHTML += `<p>${player}</p>`
-      })
-    })
-  }*/
 
   const uid = function () {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -126,41 +107,60 @@ function App() {
     return userUID;
   }
 
-  function listenToPlayers(gameUniqueId, setPlayersDom) {
+  function listenToGame(gameUniqueId, setPlayersDom, setTeamOne, setTeamTwo) {
     DB.collection('games').doc(gameUniqueId).onSnapshot(gameDB => {
-      console.log(gameDB.data())
+  
       const players = gameDB.data().players
+      const team1 = gameDB.data().team1 || [];
+      const team2 = gameDB.data().team2 || [];
+      setTeamOne(team1)
+      setTeamTwo(team2)
+
       console.log(players)
       let playersArray = []
-      for(let i in players) {
-        playersArray.push(players[i])
+      for (let i in players) {
+        playersArray.push({ username: players[i].username, userId: i })
       }
       setPlayersDom(playersArray)
     })
   }
 
-  function createTwoGroups(gameUniqueId, playersDom, setPlayersDom) {
-    let players = [...playersDom];
-    let group1=[];
-    let group2=[];
+  function createTwoGroups(playersDom) {
+
+    let players = [...playersDom], team1 = [], team2 = [], counter = playersDom.length + 2;
+  
     let turn = 0;
-    let counter = playersDom.length+2
- 
+  
+    
+  
     while (players.length > 0 && counter>0) {
-      let randomPlayer = Math.floor(Math.random()*players.length);
+  
+      let randomPlayer = Math.floor(Math.random() * players.length);
+  
+      
       counter--
-      if(turn === 0) {
-        group1.push(players[randomPlayer]);
-        players.splice(randomPlayer, 1);
-        turn = 1
+  
+      console.log(players.length, counter)
+      if (turn === 0) {
+        team1.push(players[randomPlayer]);
+        players.splice(randomPlayer, 1)
+        turn = 1;
+  
       } else {
-        group2.push(players[randomPlayer]);
-        players.splice(randomPlayer, 1);
+        team2.push(players[randomPlayer]);
+        players.splice(randomPlayer, 1)
         turn = 0;
       }
     }
-    console.log(group1)
-    console.log(group2)
+    console.log(team1)
+    console.log(team2)
+  
+    //store it to DB
+    let gameUniqueId = sessionStorage.getItem('gameUniqueId')
+  
+    DB.collection('games').doc(gameUniqueId).update({team1, team2})
+    .then(()=>{console.info('updated groups to DB')})
+    .catch(e=>{console.error(e)})
   }
   return (
     <div className="App">
@@ -170,10 +170,24 @@ function App() {
       <input type='text' id='name' placeholder='Enter Your Name' />
       <input type='submit' value='Submit' onClick={gameUpdate} />
       <div id="playersWrapper">Players: </div>
-      {playersDom.map((player, index)=> {
-        return(<p key={index}>{player.username}</p>)
+      {playersDom.map((player, index) => {
+        return (<p key={index}>{player.username}</p>)
       })}
-      <button onClick={()=>{createTwoGroups('aa',playersDom, setPlayersDom)}}>Create groups</button>
+      <button onClick={() => { createTwoGroups(playersDom) }}>Create groups</button>
+      <div className='teamsWrapper'>
+        <div className='team'>
+          <h2>Team 1</h2>
+          {team1.map((member,index)=>{
+            return(<p key={index}>{member.username}</p>)
+          })}
+        </div>
+        <div className='team'>
+          <h2>Team 2</h2>
+          {team2.map((member,index)=>{
+            return(<p key={index}>{member.username}</p>)
+          })}
+        </div>
+      </div>
     </div>
   );
 }
