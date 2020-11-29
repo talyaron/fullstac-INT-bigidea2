@@ -1,10 +1,21 @@
 import './App.css';
 import { DB } from './functions/firebaseConfig';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
   const [gameId, setGameId] = useState('');
   const [showCreateGame, setShowCreateGame] = useState(true);
+  const [playersDom, setPlayersDom] = useState([])
+
+
+  useEffect(()=>{
+
+    //listen to all players plaing the game
+
+
+  }, [])
+
+
 
   function handleNewGame() {
     let randomId = Math.floor(Math.random() * 10000 + 1);
@@ -58,7 +69,9 @@ function App() {
 
 
 
-              console.log(players)
+              console.log(players);
+
+              listenToPlayers(gameDB.id, setPlayersDom)
 
               //store the players back to DB
               DB.collection('games').doc(gameDB.id).update({ players })
@@ -91,6 +104,9 @@ function App() {
         <input type='text' name='username' placeholder='Enter your name' />
         <button type='submit'>Join</button>
       </form>
+      {playersDom.map((player, index)=>{
+        return (<p key={index}>{player.username}</p>)
+      })}
     </div>
   );
 }
@@ -115,4 +131,21 @@ function getUserUID() {
         sessionStorage.setItem('userUID', userUID);
     }
     return userUID;
+}
+
+
+function listenToPlayers(gameUniqueId, setPlayersDom){
+  DB.collection('games').doc(gameUniqueId).onSnapshot(gameDB=>{
+   
+    const players = gameDB.data().players
+    
+
+    const playersArr =[];
+    for(let i in players){
+      playersArr.push(players[i])
+    }
+
+    setPlayersDom(playersArr)
+
+  })
 }
