@@ -29,8 +29,8 @@ function App() {
     setIsHidden(true)
   }
 
-  let counter = 0
-  let teamNumber 
+  //let counter = 0
+  //let teamNumber 
   //going to the database 
   function gameUpdate(e) {
     e.preventDefault();
@@ -55,11 +55,11 @@ function App() {
             alert("A game with this id dosn't exists")
           } else {
             //set user to game on DB
-            if (counter % 2 == 0) {
+            /*if (counter % 2 == 0) {
               teamNumber = 1;
             } else {
               teamNumber = 2;
-            }
+            }*/
             gamesDB.forEach(gameDB => {
               console.log(gameDB.data())
               //extract players
@@ -71,9 +71,9 @@ function App() {
                 players = {};
               }
               //add the user to the players
-              players[userId] = { username, teamNumber };
+              players[userId] = { username };
 
-              counter++
+              //counter++
 
               console.log(players)
 
@@ -139,6 +139,29 @@ function App() {
     })
   }
 
+  function createTwoGroups(gameUniqueId, playersDom, setPlayersDom) {
+    let players = [...playersDom];
+    let group1=[];
+    let group2=[];
+    let turn = 0;
+    let counter = playersDom.length+2
+ 
+    while (players.length > 0 && counter>0) {
+      let randomPlayer = Math.floor(Math.random()*players.length);
+      counter--
+      if(turn === 0) {
+        group1.push(players[randomPlayer]);
+        players.splice(randomPlayer, 1);
+        turn = 1
+      } else {
+        group2.push(players[randomPlayer]);
+        players.splice(randomPlayer, 1);
+        turn = 0;
+      }
+    }
+    console.log(group1)
+    console.log(group2)
+  }
   return (
     <div className="App">
       <input type='submit' id='newGame' value='New Game' onClick={handleInput} style={{ display: `${isHidden ? 'none' : 'block'}` }} />
@@ -150,6 +173,7 @@ function App() {
       {playersDom.map((player, index)=> {
         return(<p key={index}>{player.username}</p>)
       })}
+      <button onClick={()=>{createTwoGroups('aa',playersDom, setPlayersDom)}}>Create groups</button>
     </div>
   );
 }
