@@ -5,6 +5,11 @@ import { useState } from 'react';
 function App() {
   const [gameId, setGameId] = useState('');
   const [showCreateGame, setShowCreateGame] = useState(true);
+  const [playersDom, setPlayersDom] = useState([])
+
+
+
+
 
   function handleNewGame() {
     let randomId = Math.floor(Math.random() * 10000 + 1);
@@ -26,7 +31,7 @@ function App() {
       //create user id, and store it on the sessionStorage
 
       let userId = getUserUID();
-      
+
       console.log('before getting the things from db')
       //get game from the db, and store user in players
       DB.collection('games')
@@ -58,7 +63,11 @@ function App() {
 
 
 
-              console.log(players)
+              console.log(players);
+
+              listenToPlayers(gameDB.id, setPlayersDom);
+              
+              sessionStorage.setItem('gameUniqueId', gameDB.id)
 
               //store the players back to DB
               DB.collection('games').doc(gameDB.id).update({ players })
@@ -91,6 +100,10 @@ function App() {
         <input type='text' name='username' placeholder='Enter your name' />
         <button type='submit'>Join</button>
       </form>
+      {playersDom.map((player, index) => {
+        return (<p key={index}>{player.username}</p>)
+      })}
+      <button onClick={() => { createTwoGroups( playersDom) }}>Create groups</button>
     </div>
   );
 }
@@ -107,12 +120,70 @@ const uid = function () {
 
 //returns the uid
 function getUserUID() {
-    //get the uid
-    let userUID = sessionStorage.getItem('userUID');
-    if (userUID === null) {
-        userUID = uid();
-        //create a uid
-        sessionStorage.setItem('userUID', userUID);
+  //get the uid
+  let userUID = sessionStorage.getItem('userUID');
+  if (userUID === null) {
+    userUID = uid();
+    //create a uid
+    sessionStorage.setItem('userUID', userUID);
+  }
+  return userUID;
+}
+
+
+function listenToPlayers(gameUniqueId, setPlayersDom) {
+  DB.collection('games').doc(gameUniqueId).onSnapshot(gameDB => {
+
+    const players = gameDB.data().players
+
+
+    const playersArr = [];
+    for (let i in players) {
+      playersArr.push({username:players[i].username, userId:i})
     }
-    return userUID;
+
+    setPlayersDom(playersArr)
+
+  })
+}
+
+function createTwoGroups(playersDom) {
+
+  let players = [...playersDom], group1 = [], group2 = [], counter = playersDom.length + 2;
+
+  let turn = 0;
+
+  
+
+  while (players.length > 0 && counter>0) {
+
+    let randomPlayer = Math.floor(Math.random() * players.length);
+
+    
+    counter--
+
+    console.log(players.length, counter)
+    if (turn === 0) {
+      group1.push(players[randomPlayer]);
+      players.splice(randomPlayer, 1)
+      turn = 1;
+
+    } else {
+      group2.push(players[randomPlayer]);
+      players.splice(randomPlayer, 1)
+      turn = 0;
+    }
+  }
+  console.log(group1)
+  console.log(group2)
+
+  //store it to DB
+  let gameUniqueId = sessionStorage.getItem('gameUniqueId')
+
+  DB.collection('games').doc(gameUniqueId).update({group1, group2})
+  .then(()=>{console.info('updated groups to DB')})
+  .catch(e=>{console.error(e)})
+
+
+
 }

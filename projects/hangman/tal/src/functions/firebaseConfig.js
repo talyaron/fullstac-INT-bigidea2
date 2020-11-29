@@ -1,5 +1,5 @@
-import firebase from '../../../calihangman/src/functions/functions/node_modules/firebase';
-import '../../../calihangman/src/functions/functions/node_modules/firebase/firestore';
+import firebase from 'firebase';
+import 'firebase/firestore';
 
 
 const firebaseConfig = {
