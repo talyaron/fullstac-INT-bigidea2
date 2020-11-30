@@ -1,32 +1,36 @@
 import './InputText.css'
 import {DB} from '../../firebase/firebaseConfig'
+import './InputText.css';
+import { DB } from '../../firebase/firebaseConfig';
 
-function InputText(){
+function InputText() {
 
-import Card from './comp'
-    function handleSubmit(e){
 
+    function handleSubmit(e) {
+        try {
+            e.preventDefault();
+
+            const inputText = e.target.children.input.value;
+
+            DB.collection('messages').add({ message: inputText, time: new Date().getTime() })
+                .then(() => { console.log('message was saved') })
+                .catch(e => { console.error(e) })
+        } catch (e) {
+            console.error(e)
+        }
     }
-    try
-    
-        e.preventDefault();
 
-        const InputText=e.target.children.input.value;
-
-        DB.collection('messages').add({message:InputText, time:new Date().getTime})
-        .then ()) {console.log}('message was saved')
-
-
-        console.log(e.target.children.input.value)
-
-    }
-    return(
-        <form className='inputText'>
-            <textarea placeholder='Write a message'>
+    return (
+        <form className='InputText' onSubmit={handleSubmit}>
+            <textarea name='input' placeholder='Write a message'>
 
             </textarea>
-            <button type='submit'>SEND</button>
+            <button type='submit'>Send</button>
         </form>
-    }
+    )
+}
 
 export default InputText;
+
+
+
