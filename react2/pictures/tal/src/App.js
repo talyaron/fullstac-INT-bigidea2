@@ -9,7 +9,8 @@ function App() {
     e.preventDefault();
     let src = e.target.children.image.value;
     let text = e.target.children.text.value;
-    setImages([...images, { src: src, text: text }]);
+    setImages([...images, { src, text }]);
+
     document.getElementById('form').reset();
 
   }
@@ -17,19 +18,17 @@ function App() {
     <div className="App">
       <form onSubmit={handleSubmit} id="form">
         <input type="text" name="image" placeholder="enter image url" />
-        <br></br>
         <input type="text" name="text" placeholder="enter text" />
-        <br></br>
         <input type="submit" value="Submit" />
-
-
-
       </form>
       <div className='imageWrapper'>
         {images.map((img, index) => {
-          return (<div key={index}>
-            <img src={img.src} /><p>{img.text}</p>
-          </div>)
+          return (
+            <div key={index}>
+              <img src={img.src} alt={img.text} />
+              <p>{img.text}</p>
+            </div>
+          )
         })}
       </div>
     </div>
