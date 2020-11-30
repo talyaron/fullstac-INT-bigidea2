@@ -37,4 +37,3 @@ const [color, setColor] = useState('');
 }
 
 export default App;
-qq
