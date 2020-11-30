@@ -2,6 +2,17 @@
   text-align: center;
 }
 
+.imageWrapper{
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:10px;
+}
+
+.imageWrapper img{
+  width: 100%;
+}
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
