@@ -36,5 +36,8 @@ const [color, setColor] = useState('');
   );
 }
 
+<<<<<<< Updated upstream
 export default App;
-qq
+=======
+export default App;
+>>>>>>> Stashed changes
