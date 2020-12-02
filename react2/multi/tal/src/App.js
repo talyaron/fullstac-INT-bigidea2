@@ -1,23 +1,28 @@
-import logo from './logo.svg';
+import {useState} from 'react';
 import './App.css';
 
+let a = 0, b = 0;
+
 function App() {
+  const [answer, setAnswer] = useState(0)
+
+  function handleA(e){
+    a = e.target.valueAsNumber;
+    setAnswer(a*b)
+  }
+
+  function handleB(e){
+      b = e.target.valueAsNumber;
+    setAnswer(a*b)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input type='number' onInput={handleA}></input>
+     X
+      <input type='number' onInput={handleB}></input>
+     =
+      <div className='results'>{answer}</div>
     </div>
   );
 }
