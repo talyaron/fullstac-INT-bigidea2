@@ -1,38 +1,35 @@
 import './App.css';
-//import { useState} from 'react';
+import { useState} from 'react';
 
 function App() {
-  let color = "";
-  let colors = [];
-  let boxes = [];
-    
+    const [colors, setcolor] = useState([])
   
   
 
   return (
     <div className="App">
       <h1>
-        <form onSubmit={addbox}>
-          <input type ="color" id="color"/>
+        <form onSubmit={addcolor}>
+          <input type ="color" name="color"/>
           <input type="submit" value="Add new box"/>
         </form>
         
       </h1>
       <div>
-        {colors.map(i=>{
-          return <div>{i}</div>
+        {colors.map((i, index)=>{
+          return <div key={index} style={{backgroundColor: i}} className="box">{i}</div>
         })
         }
       </div>
     </div>
   );
 
-  function addbox(e){
+  function addcolor(e){
     e.preventDefault()
+    //let newColor = e.target.color.value
     
-    color = document.getElementById("color").value
+    setcolor([...colors, e.target.color.value])
 
-    colors.push(color)
     console.log(colors)
   }
 }
