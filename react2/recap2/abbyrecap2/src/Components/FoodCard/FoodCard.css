@@ -1,0 +1,9 @@
+.foodCard {
+    width: 300px;
+    padding: 20px;
+    text-align: center;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 2px 2px 6px black;
+    margin: auto;
+}
