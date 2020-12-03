@@ -9,6 +9,7 @@ import {
 
 import Main from './Main';
 import Suggestions from './view/pages/Suggestions/Suggestions';
+import { DB } from './functions/firebaseConfig';
 
 export default function App() {
   return (
@@ -51,5 +52,14 @@ export default function App() {
 function About() {
   const { id } = useParams();
   return <h2>About: {id}</h2>;
+}
+
+function addToDB(){
+  DB.collection('emotions').add({
+
+  }).then(doc=>{
+    //move to page -> /send/doc.id
+
+  })
 }
 
