@@ -1,9 +1,9 @@
 import './Main.css';
-import Header from './Components/Header/Header';
+import Header from '../Header/Header';
 import {useState, useEffect} from 'react'
-import FoodCard from './Components/FoodCard/FoodCard';
-import FirebaseConfig from './Components/FirebaseConfig';
-import {DB} from './Components/FirebaseConfig';
+import FoodCard from '../FoodCard/FoodCard';
+import FirebaseConfig from '../FirebaseConfig';
+import {DB} from '../FirebaseConfig';
 function Main() {
   
   useEffect(()=>{
