@@ -1,5 +1,5 @@
 import './App.css';
-//import Main from "./pages/main"
+import MainPage from "./pages/main"
 import AddPage from "./pages/add"
 import SelectPage from "./pages/select"
 import ListPage from "./pages/list"
@@ -28,6 +28,9 @@ export default function App() {
             </div>
             <div className="menuBox">
               <Link to="/send">Send</Link>
+            </div> 
+            <div className="menuBox">
+              <Link to="/main">main</Link>
             </div> 
         </div>
             
@@ -58,6 +61,12 @@ export default function App() {
               <Send />
             </div>
           </Route>
+
+          <Route path="/main">
+            <div className="activeBox">
+              <Main />
+            </div>
+          </Route>
         </Switch>
       </div>
     </Router>
@@ -78,4 +87,8 @@ function List() {
 
 function Send() {
   return SendPage();
+}
+
+function Main() {
+  return MainPage();
 }
