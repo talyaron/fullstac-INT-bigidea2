@@ -1,5 +1,5 @@
 import './App.css';
-import Main from"./Main"
+import Main from"./pages/main"
 
 import {
   BrowserRouter as Router,
@@ -15,13 +15,16 @@ export default function App() {
         <nav>
           <ul>
             <li>
-              <Link to="/">Main</Link>
+              <Link to="/add">Add</Link>
             </li>
             <li>
-              <Link to="/about">About</Link>
+              <Link to="/select">Select</Link>
             </li>
             <li>
-              <Link to="/users">Users</Link>
+              <Link to="/list">List</Link>
+            </li>
+            <li>
+              <Link to="/send">Send</Link>
             </li>
           </ul>
         </nav>
@@ -29,14 +32,17 @@ export default function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/about">
-            <About />
+          <Route path="/add">
+            <Add />
           </Route>
-          <Route path="/users">
-            <Users />
+          <Route path="/select">
+            <Select />
           </Route>
-          <Route path="/">
-            <Main />
+          <Route path="/list">
+            <List />
+          </Route>
+          <Route path="/send">
+            <Send />
           </Route>
         </Switch>
       </div>
@@ -44,14 +50,18 @@ export default function App() {
   );
 }
 
-function Home() {
+function Add() {
   return <h2>Home</h2>;
 }
 
-function About() {
+function Select() {
   return <h2>About</h2>;
 }
 
-function Users() {
+function List() {
   return <h2>Users</h2>;
+}
+
+function Send() {
+  return <h2>Userds</h2>;
 }
