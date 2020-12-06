@@ -1,0 +1,21 @@
+#app {
+  max-width: 400px;
+  background-color: rgb(240,240,240);
+}
+
+#appName {
+  text-align: center;
+  color: orange;
+  padding-top: 40px;
+}
+
+#joinBtn {
+color: teal;
+background-color: white;
+border-radius: 4;
+border-color: teal;
+border-style: dashed;
+font-size: 24px;
+align-items: center;
+
+}
