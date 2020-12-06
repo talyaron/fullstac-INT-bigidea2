@@ -1,5 +1,5 @@
 import './App.css';
-import Main from "./pages/main"
+import MainPage from "./pages/main"
 import AddPage from "./pages/add"
 import SelectPage from "./pages/select"
 import ListPage from "./pages/list"
@@ -15,38 +15,57 @@ import {
 export default function App() {
   return (
     <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
+      <div id="bigBox">
+        <div id="menu">
+          <div className="menuBox">
               <Link to="/add">Add</Link>
-            </li>
-            <li>
+            </div>
+            <div className="menuBox">
               <Link to="/select">Select</Link>
-            </li>
-            <li>
+            </div>
+            <div className="menuBox">
               <Link to="/list">List</Link>
-            </li>
-            <li>
+            </div>
+            <div className="menuBox">
               <Link to="/send">Send</Link>
-            </li>
-          </ul>
-        </nav>
+            </div> 
+            <div className="menuBox">
+              <Link to="/main">main</Link>
+            </div> 
+        </div>
+            
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/add">
-            <Add />
+            <div className="activeBox">
+              <Add />
+            </div>
           </Route>
+
           <Route path="/select">
-            <Select />
+            <div className="activeBox">
+              <Select />
+            </div>
           </Route>
+
           <Route path="/list">
-            <List />
+            <div className="activeBox">
+              <List />
+            </div>
           </Route>
+
           <Route path="/send">
-            <Send />
+            <div className="activeBox">
+              <Send />
+            </div>
+          </Route>
+
+          <Route path="/main">
+            <div className="activeBox">
+              <Main />
+            </div>
           </Route>
         </Switch>
       </div>
@@ -68,4 +87,8 @@ function List() {
 
 function Send() {
   return SendPage();
+}
+
+function Main() {
+  return MainPage();
 }
