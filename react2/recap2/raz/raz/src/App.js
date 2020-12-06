@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import Main from './Main';
-import Suggestions from './pages/Suggestions/Suggestions.css'
+import Suggestions from './pages/Suggestions.css'
 
 export default function App() {
   return (
