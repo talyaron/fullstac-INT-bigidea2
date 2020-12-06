@@ -22,10 +22,12 @@ function App() {
       </form>
       {/* element = part of an array, image in this case */}
       {imgs.map((element, index) => {
-        return (<div key={index}>
-          <img src={element.src} />
-          <p>{element.text}</p>
-        </div>)
+        return (
+          <div key={index}>
+            <img src={element.src} />
+            <p>{element.text}</p>
+          </div>
+        )
       })}
     </div>
   );
