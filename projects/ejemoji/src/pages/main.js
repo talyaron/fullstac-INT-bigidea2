@@ -1,4 +1,6 @@
-function Main(){
+import "./main"
+
+function MainPage(){
 return (
     <div className='main'> 
         <p>Emoshapp</p>
@@ -6,4 +8,4 @@ return (
 )
 }
 
-export default Main
+export default MainPage
