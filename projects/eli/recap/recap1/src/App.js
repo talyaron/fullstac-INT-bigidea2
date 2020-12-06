@@ -29,7 +29,7 @@ export default function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/about">
+          <Route path="./about">
             <About />
           </Route>
           <Route path="/users">

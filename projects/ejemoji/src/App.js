@@ -1,5 +1,9 @@
 import './App.css';
-import Main from"./pages/main"
+import Main from "./pages/main"
+import AddPage from "./pages/add"
+import SelectPage from "./pages/select"
+import ListPage from "./pages/list"
+import SendPage from "./pages/send"
 
 import {
   BrowserRouter as Router,
@@ -51,17 +55,17 @@ export default function App() {
 }
 
 function Add() {
-  return <h2>Home</h2>;
+  return AddPage();
 }
 
 function Select() {
-  return <h2>About</h2>;
+  return SelectPage();
 }
 
 function List() {
-  return <h2>Users</h2>;
+  return ListPage();
 }
 
 function Send() {
-  return <h2>Userds</h2>;
+  return SendPage();
 }
