@@ -1,7 +1,11 @@
 import {useState} from 'react';
+import './select.css';
+
 
 function SelectPage(){
-    const [images, setImage] = useState(["jh"]);
+    const [images, setImage] = useState([]);
+    let sentence;
+    let myName
 
     let oneList = [
         "https://w7.pngwing.com/pngs/210/306/png-transparent-face-with-tears-of-joy-emoji-crying-laughter-sticker-sad-emoji-pic-crying-emoji-icon-smiley-infant-anger.png", "https://i.pinimg.com/originals/da/8c/21/da8c2163061be58d770f6f9af78258e8.png"
@@ -63,12 +67,13 @@ function SelectPage(){
     <h2> Emojis</h2>
     <div>
         {images.map((image, index)=>{
-            return <img src={image} key={index} alt="hello"/>
+            return <img className="picture" src={image} key={index} alt="hello"/>
         })}
-    </div>
+        <input/>
+    </div> 
     <h2> Sentences</h2>
-    <input type='text' placeholder='Add a sentence'></input>
-    <input type='submit'></input>
+    <input id= 'input' type='text' placeholder='Add a sentence'></input>
+    <input type='submit' onClick = {handleSubmit}></input>
     </div>
     )
 
@@ -107,6 +112,13 @@ function SelectPage(){
                 setImage((images, tenList))
             }
         }
+
+    }
+    function handleSubmit (){
+        myName = "me"
+        sentence = document.getElementById('input').value
+        console.log (images, sentence)
+        localStorage.setItem(myName, [sentence, images])
     }
 
 }
