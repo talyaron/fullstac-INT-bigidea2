@@ -26,7 +26,7 @@
 
   #rateFeelingsHeader {
       text-align: center;
-      margin-top: -10px;
+      margin-top: -8px;
       margin-bottom: 4px;
   }
 
@@ -39,4 +39,10 @@
   #formURL {
     margin-left: 30px;
     margin-top: 8px;
+  }
+
+  .emojiImage {
+      width: 30px;
+      margin-top: 10px;
+      padding: 35px;
   }

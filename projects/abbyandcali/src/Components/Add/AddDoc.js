@@ -1,6 +1,8 @@
-import './AddDoc.css'
+import './AddDoc.css';
+import { useState } from 'react';
 
 function AddDoc() {
+    const [emojis, setEmojis] = useState([])
 
     //event listener for each item (1 --> 10) to get the id of what is clicked
 
@@ -11,12 +13,14 @@ function AddDoc() {
         //element.style.backgroundColor = "rgb(81, 186, 186);"
     }
 
+
     function handleEmojiUrl(e) {
         e.preventDefault();
-        console.log(e.target.children.urlInput)
+        let emojiURL = e.target.children.urlInput.value
+        console.log(emojiURL)
+        setEmojis([...emojis, emojiURL])
+        document.getElementById('urlInput').value = ''
     }
-
-
 
 
     return (
@@ -36,9 +40,16 @@ function AddDoc() {
             </div>
             <h4 id="emojisHeader">Emojis</h4>
             <form onSubmit={handleEmojiUrl} id="formURL">
-                <input type="url" placeholder="enter 1/3 emoji URLs" id="urlInput" />
+                <input type="url" placeholder="enter 3 emoji URLs" id="urlInput" />
                 <input type="submit" value="add emoji" id="submitBtn" />
             </form>
+
+            {
+                emojis.map((emoji, index) => {
+                    return <img src={emoji} key={index} className="emojiImage"/>
+                })
+            }
+
         </div>
 
 
