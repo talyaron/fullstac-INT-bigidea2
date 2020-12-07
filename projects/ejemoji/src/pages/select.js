@@ -5,7 +5,8 @@ import './select.css';
 function SelectPage(){
     const [images, setImage] = useState([]);
     let sentence;
-    let myName
+    let myName;
+    let myEmoji;
 
     let oneList = [
         "https://w7.pngwing.com/pngs/210/306/png-transparent-face-with-tears-of-joy-emoji-crying-laughter-sticker-sad-emoji-pic-crying-emoji-icon-smiley-infant-anger.png", "https://i.pinimg.com/originals/da/8c/21/da8c2163061be58d770f6f9af78258e8.png"
@@ -69,7 +70,9 @@ function SelectPage(){
         {images.map((image, index)=>{
             return <img className="picture" src={image} key={index} alt="hello"/>
         })}
-        <input/>
+        
+        <input type='number' min='1' max ='2' id='choose'></input> <span>Choose Emoji 1 or 2</span>
+        
     </div> 
     <h2> Sentences</h2>
     <input id= 'input' type='text' placeholder='Add a sentence'></input>
@@ -115,10 +118,12 @@ function SelectPage(){
 
     }
     function handleSubmit (){
+        myEmoji = images[document.getElementById('choose').value -1]
+        console.log  ('jsbdj  '+ myEmoji);
         myName = "me"
         sentence = document.getElementById('input').value
         console.log (images, sentence)
-        localStorage.setItem(myName, [sentence, images])
+        localStorage.setItem(myName, [sentence, myEmoji])
     }
 
 }
