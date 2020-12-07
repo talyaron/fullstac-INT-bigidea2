@@ -2,16 +2,14 @@ import firebase from 'firebase'
 import 'firebase/firestore'
 
 var firebaseConfig = {
-    apiKey: "AIzaSyCuqXvrC20supCgCk2qdXMV5k0qwiNzCro",
-    authDomain: "abbyfb1.firebaseapp.com",
-    databaseURL: "https://abbyfb1.firebaseio.com",
-    projectId: "abbyfb1",
-    storageBucket: "abbyfb1.appspot.com",
-    messagingSenderId: "868023743677",
-    appId: "1:868023743677:web:cfb2d64ccb6ef557a133d4"
-  };
-
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+  apiKey: "AIzaSyCagAafUDnvM8NDuKM5oKEpVLk_hkO4FN4",
+  authDomain: "emoshapp.firebaseapp.com",
+  projectId: "emoshapp",
+  storageBucket: "emoshapp.appspot.com",
+  messagingSenderId: "864353409654",
+  appId: "1:864353409654:web:7aad59d10332126cf5dd57"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 export const DB = firebase.firestore()

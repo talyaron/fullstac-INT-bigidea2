@@ -1,15 +1,19 @@
 import './SelectDoc.css';
 import AddDoc from '../Add/AddDoc'
 import { useState } from 'react';
-import {DB} from '../FirebaseConfig'
+import { DB } from '../FirebaseConfig'
 
 function SelectDoc() {
-  
-
-   //when submit the emoji, it gets added to an array (up to 3 emojis)
-
-
+    
+    //event listener for each item (1 --> 10) to get the id of what is clicked
+    function Add(number) {
+        console.log(number)
+        let element = document.getElementById('box' + number)
+        console.log(element)
+        //element.style.backgroundColor = "rgb(81, 186, 186);"
     }
+
+
     return (
         <div id="selectDoc">
             <h4 id='rateFeelingsHeader'>Rate your feelings</h4>
@@ -26,25 +30,12 @@ function SelectDoc() {
                 <input type="button" value="10" className="item" id="box10" onClick={() => Add(10)} />
             </div>
             <h4 id="emojisHeader">Emojis</h4>
-            <form onSubmit={handleEmojiUrl} className="formURL">
-                <input type="url" placeholder="enter 3 emoji URLs" id="urlInput" />
-                <input type="submit" value="add emoji" id="submitBtn" />
-            </form>
 
-            {
-                emojis.map((emoji, index) => {
-                    return <img src={emoji} key={index} className="emojiImage"/>
-                })
-            }
-        <h4 id="sentenceHeader">Sentences</h4>
-            {
-                sentences.map((sentence, index) => {
-                    return <p key={index} className="sentence">{sentence}</p>                
-                })
-            }
+            <h4 id="sentenceHeader">Sentences</h4>
+
             <div id="selectScreenReminder"></div>
         </div>
-        
+
 
 
     );

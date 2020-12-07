@@ -1,10 +1,11 @@
 import './App.css';
 import AddDoc from './Components/Add/AddDoc'
+import SelectDoc from './Components/Select/SelectDoc'
 import {DB} from './Components/FirebaseConfig'
 
 
 //import ListDoc from './Components/List/ListDoc'
-//import SelectDoc from './Components/Select/SelectDoc'
+
 //import SendDoc from './Components/Send/SendDoc'
 import {
   BrowserRouter as Router,
@@ -74,6 +75,7 @@ function App() {
     </Route>
     <Route path="/SelectDoc">
     <h2>Select</h2>
+    <SelectDoc/>
     </Route>
     <Route path="/ListDoc">
     <h2>List</h2>
