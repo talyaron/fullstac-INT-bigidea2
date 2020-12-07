@@ -1,29 +1,31 @@
 import './App.css';
-import Add from './Components/Add/Add'
-import List from './Components/List/List'
-import Select from './Components/Select/Select'
-import Send from './Components/Send/Send'
+import AddDoc from './Components/Add/AddDoc'
+//import ListDoc from './Components/List/ListDoc'
+//import SelectDoc from './Components/Select/SelectDoc'
+//import SendDoc from './Components/Send/SendDoc'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link, useParams
+  Link, 
 } from "react-router-dom";
 
 
 function App() {
-  const mainScreen = document.getElementById("mainScreen")
+  let mainScreen = document.getElementById("mainScreen")
   //mainScreen.style.display = "none"
 
   //joining the game and clearing the screen 
   function handleJoin(e) {
     e.preventDefault();
     let userId = getUserUID();
+    console.log("userId: " + userId)
 
     let button = document.getElementById('joinBtn')
     button.remove()
     let header = document.getElementById("appName")
     header.remove()
+    mainScreen = document.getElementById("mainScreen")
     mainScreen.style.display = "block"
   }
 
@@ -55,25 +57,26 @@ function App() {
     <div id="mainScreen" style={{display:"none"}}><Router>
       <div>
         <nav>
-          <div><Link to="/Add">Add</Link></div>
-          <div><Link to="/Select">Select</Link></div>
-          <div><Link to="/List">List</Link></div>
-          <div><Link to="/Send">Send</Link></div>
+          <div><Link to="/AddDoc">Add</Link></div>
+          <div><Link to="/SelectDoc">Select</Link></div>
+          <div><Link to="/ListDoc">List</Link></div>
+          <div><Link to="/SendDoc">Send</Link></div>
        
         </nav>
 
   <Switch>
-    <Route path="/Add">
-      <Add />
+    <Route path="/AddDoc">
+      <h2>Add</h2>
+      <AddDoc/>
     </Route>
-    <Route path="/Select">
-      <Select />
+    <Route path="/SelectDoc">
+    <h2>Select</h2>
     </Route>
-    <Route path="/List">
-      <List />
+    <Route path="/ListDoc">
+    <h2>List</h2>
     </Route>
-    <Route path="/Send">
-      <Send />
+    <Route path="/SendDoc">
+    <h2>Send</h2>
     </Route>
   </Switch>
       </div >
@@ -83,20 +86,5 @@ function App() {
        </div>
   );
 }
-function Add() {
-  const {id} = useParams();
-  return <h2>Add</h2>;
-}
-function Select() {
-  const {id} = useParams();
-  return <h2>Select</h2>;
-}
-function List() {
-  const {id} = useParams();
-  return <h2>List</h2>;
-}
-function Send() {
-  const {id} = useParams();
-  return <h2>Send</h2>;
-}
+
 export default App;

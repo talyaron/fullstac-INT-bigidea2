@@ -1,0 +1,42 @@
+#wrapperButtonNumbers {
+    display: grid;
+    grid-template-columns: 25px 25px 25px 25px 25px 25px 25px 25px 25px 25px;
+    padding-left: -2px;
+    gap: 7px;
+  }
+  
+  .item {
+    background-color: rgb(51, 146, 146);
+    border-radius: 10px;
+    color: white;
+    border-color: grey;
+  }
+
+  h2 {
+    color: rgb(222, 131, 34);
+    text-align: center;
+    background-color: white;
+
+  }
+
+  #box10 {
+      margin-left: -2px;
+      margin-right: 2px;
+  }
+
+  #rateFeelingsHeader {
+      text-align: center;
+      margin-top: -10px;
+      margin-bottom: 4px;
+  }
+
+  #emojisHeader {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 4px;
+  }
+
+  #formURL {
+    margin-left: 30px;
+    margin-top: 8px;
+  }

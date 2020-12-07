@@ -1,5 +1,5 @@
 #app {
-  max-width: 400px;
+  max-width: 320px;
   background-color: rgb(240,240,240);
 }
 
@@ -10,6 +10,7 @@
 }
 
 #joinBtn {
+margin-left: 140px;
 color: teal;
 background-color: white;
 border-radius: 4;
@@ -17,5 +18,42 @@ border-color: teal;
 border-style: dashed;
 font-size: 24px;
 align-items: center;
-
 }
+
+#linkHeader {
+  display: inline-flex;
+}
+
+nav {
+  width: 100%;
+  background-color:  rgb(51, 146, 146);;
+  display: flex;
+  font-size: 20px;
+  gap: 32px;
+}
+nav > div {
+  margin: 5px;
+  color: white;
+}
+
+nav > div :hover{
+background-color:  rgb(51, 146, 146);;
+}
+
+nav > div a{
+  color: white;
+  text-decoration: none;
+}
+
+h2 {
+  color: rgb(222, 131, 34);
+  text-align: center;
+}
+
+#EmoshAppHeader {
+  color: rgb(222, 131, 34);
+  font-style: bold;
+  text-align: center;
+  padding-top: 14px;
+}
+
