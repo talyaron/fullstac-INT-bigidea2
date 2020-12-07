@@ -1,5 +1,6 @@
 import './AddDoc.css';
 import { useState } from 'react';
+import { DB } from '../FirebaseConfig';
 
 function AddDoc() {
     const [emojis, setEmojis] = useState([])
@@ -13,13 +14,21 @@ function AddDoc() {
         //element.style.backgroundColor = "rgb(81, 186, 186);"
     }
 
-
+   
     function handleEmojiUrl(e) {
         e.preventDefault();
-        let emojiURL = e.target.children.urlInput.value
-        console.log(emojiURL)
-        setEmojis([...emojis, emojiURL])
-        document.getElementById('urlInput').value = ''
+        let emojiDocName
+        if (emojis.length < 3){
+            let emojiURL = e.target.children.urlInput.value
+            console.log(emojiURL)
+            setEmojis([...emojis, emojiURL])
+            document.getElementById('urlInput').value = ''
+            emojiDocName = "emoji"+emojis.length
+            console.log(emojiDocName)
+            DB.collection('emotions').doc(emojiDocName).set({emojiURL: emojiURL})
+            .catch(e => {console.error(e)})
+        } 
+
     }
 
 

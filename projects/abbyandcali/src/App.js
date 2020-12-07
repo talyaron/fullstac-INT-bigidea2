@@ -1,5 +1,7 @@
 import './App.css';
 import AddDoc from './Components/Add/AddDoc'
+import {DB} from './Components/FirebaseConfig'
+
 //import ListDoc from './Components/List/ListDoc'
 //import SelectDoc from './Components/Select/SelectDoc'
 //import SendDoc from './Components/Send/SendDoc'
