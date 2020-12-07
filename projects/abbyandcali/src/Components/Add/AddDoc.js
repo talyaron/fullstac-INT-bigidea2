@@ -1,9 +1,10 @@
 import './AddDoc.css';
 import { useState } from 'react';
-import { DB } from '../FirebaseConfig';
+import {DB} from '../FirebaseConfig'
 
 function AddDoc() {
     const [emojis, setEmojis] = useState([])
+    const [sentences, setSentences] = useState([])
 
     //event listener for each item (1 --> 10) to get the id of what is clicked
 
@@ -14,13 +15,13 @@ function AddDoc() {
         //element.style.backgroundColor = "rgb(81, 186, 186);"
     }
 
-   
+   //when submit the emoji, it gets added to an array (up to 3 emojis)
     function handleEmojiUrl(e) {
         e.preventDefault();
         let emojiDocName
         if (emojis.length < 3){
             let emojiURL = e.target.children.urlInput.value
-            console.log(emojiURL)
+            console.log("emoji URL: " + emojiURL)
             setEmojis([...emojis, emojiURL])
             document.getElementById('urlInput').value = ''
             emojiDocName = "emoji"+emojis.length
@@ -28,10 +29,20 @@ function AddDoc() {
             DB.collection('emotions').doc(emojiDocName).set({emojiURL: emojiURL})
             .catch(e => {console.error(e)})
         } 
-
     }
 
-
+    function handleSentence(e){
+        e.preventDefault();
+        if (sentences.length < 5) {
+            let sentenceSubmitted = e.target.children.sentenceInput.value;
+            console.log("sentence: " + sentenceSubmitted)
+            setSentences([...sentences, sentenceSubmitted])
+            document.getElementById('sentenceInput').value = ''
+        } else {
+            document.getElementById('selectScreenReminder').innerText = "PRESS SELECT"
+        }
+        
+    }
     return (
         <div id="addDoc">
             <h4 id='rateFeelingsHeader'>Rate your feelings</h4>
@@ -48,7 +59,7 @@ function AddDoc() {
                 <input type="button" value="10" className="item" id="box10" onClick={() => Add(10)} />
             </div>
             <h4 id="emojisHeader">Emojis</h4>
-            <form onSubmit={handleEmojiUrl} id="formURL">
+            <form onSubmit={handleEmojiUrl} className="formURL">
                 <input type="url" placeholder="enter 3 emoji URLs" id="urlInput" />
                 <input type="submit" value="add emoji" id="submitBtn" />
             </form>
@@ -58,8 +69,19 @@ function AddDoc() {
                     return <img src={emoji} key={index} className="emojiImage"/>
                 })
             }
-
+        <h4 id="sentenceHeader">Sentences</h4>
+            <form onSubmit={handleSentence} className="formURL">
+                <input type="text" placeholder="enter 5 sentences" id="sentenceInput" />
+                <input type="submit" value="add sentence" id="submitBtn" />
+            </form>
+            {
+                sentences.map((sentence, index) => {
+                    return <p key={index} className="sentence">{sentence}</p>                
+                })
+            }
+            <div id="selectScreenReminder"></div>
         </div>
+        
 
 
     );

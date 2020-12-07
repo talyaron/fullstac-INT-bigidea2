@@ -32,17 +32,37 @@
 
   #emojisHeader {
     text-align: center;
-    margin-top: 15px;
+    margin-top: 20px;
     margin-bottom: 4px;
   }
 
-  #formURL {
-    margin-left: 30px;
+  .formURL {
+    margin-left: 39px;
     margin-top: 8px;
   }
 
   .emojiImage {
       width: 30px;
-      margin-top: 10px;
+      margin-top: -20px;
       padding: 35px;
+      margin-bottom: -42px;
+  }
+
+  #sentenceHeader {
+    text-align: center;
+    margin-top: 22px;
+    margin-bottom: 4px;
+  }
+
+  .sentence {
+      text-align: center;
+      color: white;
+      background-color: rgb(51, 146, 146);
+      border-radius: 10px;
+      border-color: grey;
+  }
+  #selectScreenReminder {
+      color: rgb(222, 131, 34);
+      text-align: center;
+      font-size: 30px;
   }
