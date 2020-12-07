@@ -1,8 +1,6 @@
 import './App.css';
 import MainPage from "./pages/main"
-import AddPage from "./pages/add"
 import SelectPage from "./pages/select"
-import ListPage from "./pages/list"
 import SendPage from "./pages/send"
 
 import {
@@ -17,52 +15,31 @@ export default function App() {
     <Router>
       <div id="bigBox">
         <div id="menu">
-          <div className="menuBox">
-              <Link to="/add">Add</Link>
-            </div>
             <div className="menuBox">
               <Link to="/select">Select</Link>
             </div>
             <div className="menuBox">
-              <Link to="/list">List</Link>
-            </div>
-            <div className="menuBox">
               <Link to="/send">Send</Link>
             </div> 
-            <div className="menuBox">
-              <Link to="/main">main</Link>
-            </div> 
         </div>
-            
+                   
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/add">
-            <div className="activeBox">
-              <Add />
-            </div>
-          </Route>
-
           <Route path="/select">
             <div className="activeBox">
               <Select />
             </div>
           </Route>
-
-          <Route path="/list">
-            <div className="activeBox">
-              <List />
-            </div>
-          </Route>
-
+          
           <Route path="/send">
             <div className="activeBox">
               <Send />
             </div>
           </Route>
 
-          <Route path="/main">
+          <Route path="/">
             <div className="activeBox">
               <Main />
             </div>
@@ -73,16 +50,8 @@ export default function App() {
   );
 }
 
-function Add() {
-  return AddPage();
-}
-
 function Select() {
   return SelectPage();
-}
-
-function List() {
-  return ListPage();
 }
 
 function Send() {
@@ -92,3 +61,4 @@ function Send() {
 function Main() {
   return MainPage();
 }
+
