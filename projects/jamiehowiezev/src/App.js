@@ -1,5 +1,6 @@
 import './App.css';
 import React from "react";
+import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,8 +8,8 @@ import {
   Link, useParams
 } from "react-router-dom";
 
-import Main from './Main';
-import Suggestions from './view/pages/Suggestions/Suggestions';
+//import Main from './Main';
+//import Suggestions from './view/pages/Suggestions/Suggestions';
 import { DB } from './functions/firebaseConfig';
 
 export default function App() {
@@ -37,10 +38,10 @@ export default function App() {
             <About />
           </Route>
           <Route path="/suggestions/:id">
-            <Suggestions />
+            
           </Route>
           <Route path="/">
-            <Main />
+            
           </Route>
         </Switch>
       </div>
