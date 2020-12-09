@@ -5,7 +5,6 @@ import './select.css';
 function SelectPage(){
     const [images, setImage] = useState([]);
     let sentence;
-    let myName;
     let myEmoji;
 
     let oneList = [
@@ -81,46 +80,43 @@ function SelectPage(){
     )
 
    function Pictures(e){
-        {
-            if (e.target.id === 'one') {
-                setImage((images, oneList))
-            }
-
-            if (e.target.id === 'two'){
-                setImage((images, twoList))
-            }
-
-            if (e.target.id === 'three'){
-                setImage((images, threeList))
-            }
-            if (e.target.id === 'four'){
-                setImage((images, fourList))
-            }
-            if (e.target.id === 'five'){
-                setImage((images, fiveList))
-            }
-            if (e.target.id === 'six'){
-                setImage((images, sixList))
-            }
-            if (e.target.id === 'seven'){
-                setImage((images, sevenList))
-            }
-            if (e.target.id === 'eight'){
-                setImage((images, eightList))
-            }
-            if (e.target.id === 'nine'){
-                setImage((images, nineList))
-            }
-            if (e.target.id === 'ten'){
-                setImage((images, tenList))
-            }
+        if (e.target.id === 'one') {
+            setImage((images, oneList))
         }
 
+        if (e.target.id === 'two'){
+            setImage((images, twoList))
+        }
+
+        if (e.target.id === 'three'){
+            setImage((images, threeList))
+        }
+        if (e.target.id === 'four'){
+            setImage((images, fourList))
+        }
+        if (e.target.id === 'five'){
+            setImage((images, fiveList))
+        }
+        if (e.target.id === 'six'){
+            setImage((images, sixList))
+        }
+        if (e.target.id === 'seven'){
+            setImage((images, sevenList))
+        }
+        if (e.target.id === 'eight'){
+            setImage((images, eightList))
+        }
+        if (e.target.id === 'nine'){
+            setImage((images, nineList))
+        }
+        if (e.target.id === 'ten'){
+            setImage((images, tenList))
+        }
     }
+    
     function handleSubmit (){
         myEmoji = images[document.getElementById('choose').value -1]
         console.log  ('jsbdj  '+ myEmoji);
-        myName = localStorage.getItem("Name")
         sentence = document.getElementById('input').value
         console.log (images, sentence)
 

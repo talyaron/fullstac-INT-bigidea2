@@ -6,8 +6,7 @@ function SendPage(){
     let myId = localStorage.getItem("userUID")
     let myEmoji = localStorage.getItem("Emoji")
     let myComment = localStorage.getItem("Comment")
-    let MessageNumber = 0
-    localStorage.setItem("Sent Messages", MessageNumber)
+    let MessageNumber = localStorage.getItem("Sent Messages")
 
     return (
         <div id="container">
