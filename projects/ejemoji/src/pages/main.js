@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+import "./main"
+
+function MainPage(){
+return (
+    <div className='main'> 
+        <p>Emoshapp</p>
+    </div>
+)
+=======
 import { Link } from "react-router-dom"
 import "./main.css"
 
@@ -11,6 +21,7 @@ function Main(){
 
     function enter(){
     }
+>>>>>>> master
 }
 
-export default Main
+export default MainPage
