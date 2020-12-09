@@ -1,5 +1,4 @@
 import './SelectDoc.css';
-import AddDoc from '../Add/AddDoc'
 import { useState } from 'react';
 import { DB } from '../FirebaseConfig'
 
