@@ -1,19 +1,9 @@
 .main {
-<<<<<<< HEAD
-   width: 100px;
-   height: 100px;
-   display: flex;
-    background-color: yellow;
-    border: 2px solid yellow;
-    text-align: center;
-
-=======
     width: 100%;
     height: 500px;
     background-color: yellow;
     text-align: center;
 }
->>>>>>> master
 
 #name{
     position: relative;

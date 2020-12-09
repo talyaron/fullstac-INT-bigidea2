@@ -15,6 +15,9 @@ export default function App() {
     <Router>
       <div id="bigBox">
         <div id="menu">
+          <div className="menuBox">
+              <Link to="/">home</Link>
+            </div>
             <div className="menuBox">
               <Link to="/select">Select</Link>
             </div>

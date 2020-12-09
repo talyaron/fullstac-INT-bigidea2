@@ -51,33 +51,33 @@ function SelectPage(){
     
     
     return(
-        <div>
-    <h2> Expressions for Feelings</h2>
-  
-    <button id='one' onClick = {Pictures} > 1 </button>
-    <button id='two' onClick = {Pictures} > 2 </button>
-    <button id='three' onClick = {Pictures}> 3 </button>
-    <button id='four' onClick = {Pictures}> 4 </button>
-    <button id='five' onClick = {Pictures}> 5 </button>
-    <button id='six' onClick = {Pictures}> 6 </button>
-    <button id='seven' onClick = {Pictures}> 7 </button>
-    <button id='eight' onClick = {Pictures}> 8 </button>
-    <button id='nine' onClick = {Pictures}> 9 </button>
-    <button id='ten' onClick = {Pictures}> 10 </button>
+        <div id="container">
+            <h2> Expressions for Feelings</h2>
+        
+            <button id='one' onClick = {Pictures} > 1 </button>
+            <button id='two' onClick = {Pictures} > 2 </button>
+            <button id='three' onClick = {Pictures}> 3 </button>
+            <button id='four' onClick = {Pictures}> 4 </button>
+            <button id='five' onClick = {Pictures}> 5 </button>
+            <button id='six' onClick = {Pictures}> 6 </button>
+            <button id='seven' onClick = {Pictures}> 7 </button>
+            <button id='eight' onClick = {Pictures}> 8 </button>
+            <button id='nine' onClick = {Pictures}> 9 </button>
+            <button id='ten' onClick = {Pictures}> 10 </button>
 
-    <h2> Emojis</h2>
-    <div>
-        {images.map((image, index)=>{
-            return <img className="picture" src={image} key={index} alt="hello"/>
-        })}
-        
-        <input type='number' min='1' max ='2' id='choose'></input> <span>Choose Emoji 1 or 2</span>
-        
-    </div> 
-    <h2> Sentences</h2>
-    <input id= 'input' type='text' placeholder='Add a sentence'></input>
-    <input type='submit' onClick = {handleSubmit}></input>
-    </div>
+            <h2> Emojis</h2>
+            <div>
+                {images.map((image, index)=>{
+                    return <img className="picture" src={image} key={index} alt="hello"/>
+                })}
+                
+                <input type='number' min='1' max ='2' id='choose'></input> <span>Choose Emoji 1 or 2</span>
+                
+            </div> 
+            <h2> Sentences</h2>
+            <input id= 'input' type='text' placeholder='Add a sentence'></input>
+            <input type='submit' onClick = {handleSubmit}></input>
+        </div>
     )
 
    function Pictures(e){
@@ -120,10 +120,12 @@ function SelectPage(){
     function handleSubmit (){
         myEmoji = images[document.getElementById('choose').value -1]
         console.log  ('jsbdj  '+ myEmoji);
-        myName = "me"
+        myName = localStorage.getItem("Name")
         sentence = document.getElementById('input').value
         console.log (images, sentence)
-        localStorage.setItem(myName, [sentence, myEmoji])
+
+        localStorage.setItem("Emoji", myEmoji)
+        localStorage.setItem("Comment", sentence)
     }
 
 }
