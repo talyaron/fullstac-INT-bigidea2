@@ -2,6 +2,7 @@ import './App.css';
 import MainPage from "./pages/main"
 import SelectPage from "./pages/select"
 import SendPage from "./pages/send"
+import "./firebase/firebaseConfig"
 
 import {
   BrowserRouter as Router,
@@ -15,6 +16,9 @@ export default function App() {
     <Router>
       <div id="bigBox">
         <div id="menu">
+          <div className="menuBox">
+              <Link to="/">home</Link>
+            </div>
             <div className="menuBox">
               <Link to="/select">Select</Link>
             </div>

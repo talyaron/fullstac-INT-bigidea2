@@ -6,12 +6,12 @@
 
 #menu{
   display: grid;
-  grid-template-columns: 120px 120px;
+  grid-template-columns: 80px 80px 80px;
   width: auto;
 }
 
 .menuBox{
-  width: 120px;
+  width: 80px;
   height: 20px;
   text-align: center;
   border: 2px solid black;
