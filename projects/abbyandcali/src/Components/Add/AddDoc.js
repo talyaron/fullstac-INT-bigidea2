@@ -1,73 +1,57 @@
 import './AddDoc.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DB } from '../FirebaseConfig'
 
 function AddDoc() {
     const [emojis, setEmojis] = useState([])
+    const [feeling, setFeeling] = useState(1)
     const [sentences, setSentences] = useState([])
+
+    useEffect(()=>{
+        DB.collection('emotions').onSnapshot(emotionsDB=>{
+
+            const emojiesTemp = [], sentencesTmp = [];
+
+            emotionsDB.forEach(emotionDB=>{
+               
+
+                if(emotionDB.data().type === 'emoji'){
+               
+
+                    emojiesTemp.push(emotionDB.data())
+                }
+                if(emotionDB.data().type === 'sentence'){
+                    sentencesTmp.push(emotionDB.data())
+                }
+
+               
+            })
+
+            console.log(emojiesTemp)
+            setEmojis(emojiesTemp);
+            setSentences(sentencesTmp)
+        })
+    },[])
 
     function handleEmojiUrl(e) {
         e.preventDefault();
         let url = e.target.children.urlInput.value
-        console.log("emoji URL: " + url)
-        setEmojis([...emojis, url])
-        console.log(emojis)
-        document.getElementById('urlInput').value = ''
-        document.getElementById('emojisDisplay').innerHTML += `<img src="${url}" class="emojiImage"/>`
-        DB.collection('emotions').doc('emojis').update({
-            emojis
+        
+        e.target.children.urlInput.value = '';
+       
+
+        DB.collection('emotions').add({
+            text:url,
+            type:'emoji',
+            feeling:feeling 
+        }).then(doc=>{
+            console.log('added emotion', doc.id)
+        }).catch(e=>{
+            console.error(e)
         })
-    
 
 
 
-
-
-
-
-        /*for (let i=0; i < 3; i++) {
-            let emojiVar = "emoji"+i
-            let emojiURL = e.target.children.urlInput.value
-            console.log("emoji URL: " + emojiURL)
-            setEmojis([...emojis, emojiURL])
-            console.log(emojis)
-            DB.collection('emotions').doc('emojis').set({${emojiVar}: emojiURL})
-            .catch(e => {console.error(e)})
-        }
-        document.getElementById('urlInput').value = ''*/
-        //let emojiDocName
-        /*if (emojis.length < 3) {
-            let emojiURL = e.target.children.urlInput.value
-            console.log("emoji URL: " + emojiURL)
-            setEmojis([...emojis, emojiURL])
-            console.log(emojis)
-            document.getElementById('urlInput').value = ''*/
-
-        //DB.collection('emotions').doc('emojis').set({emojiURL})
-        //.catch(e => {console.error(e)})
-        //let emojiDocName = "emoji"+emojis.length
-        //console.log(emojiDocName)
-        //DB.collection('emotions').doc(emojiDocName).set({emojiURL: emojiURL})
-        //.catch(e => {console.error(e)})
-        /*DB.collection('emotions').get()
-            .then(emotionDB => {
-                let { emojis } = emotionDB.data();
-
-                console.log(emojis)
-                //if emojis do not exist in DB
-                if (emojis === undefined) {
-                    emojis = {};
-                }
-                emojis[emojiURL] = { emojiURL };
-
-                console.log(emojis)
-
-                DB.collection('emojis').doc(emojis).update({ emojis })
-                    .then(() => { console.log('emoji stored') })
-                    .catch(e => {
-                        console.error(e)
-                    })
-            })*/
     }
 
     function handleSentence(e) {
@@ -80,7 +64,7 @@ function AddDoc() {
         DB.collection('emotions').doc('sentences').update({
             sentences
         })
-    
+
     }
     return (
         <div id="addDoc">
@@ -102,7 +86,13 @@ function AddDoc() {
                 <input type="url" placeholder="enter emoji URLs" id="urlInput" />
                 <input type="submit" value="add emoji" id="submitBtn" />
             </form>
-            <div id="emojisDisplay"></div>
+            <div id="emojisDisplay">
+                {emojis.map((emoji, index) => {
+                    console.log(emoji.text  )
+                    return (<img src={emoji.text} key={index} className="emojiImage" alt='emoji' />)
+                })
+                }
+            </div>
 
             <div><h4 id="sentenceHeader">Sentences</h4>
                 <form onSubmit={handleSentence} className="formURL">
