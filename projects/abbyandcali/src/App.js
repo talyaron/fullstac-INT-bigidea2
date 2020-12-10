@@ -2,16 +2,14 @@ import './App.css';
 import AddDoc from './Components/Add/AddDoc'
 import SelectDoc from './Components/Select/SelectDoc'
 //import {DB} from './Components/FirebaseConfig'
-
-
-//import ListDoc from './Components/List/ListDoc'
+import ListDoc from './Components/List/ListDoc'
 
 //import SendDoc from './Components/Send/SendDoc'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link, 
+  Link,
 } from "react-router-dom";
 
 
@@ -50,44 +48,47 @@ function App() {
 
 
   return (
-     <div id="app">
-       <h1 id="appName">EmoshApp</h1>
-       <input type="submit" value="join" onClick={handleJoin} id="joinBtn"/>
-      
+    <div id="app">
+      <h1 id="appName">EmoshApp</h1>
+      <Router> <div><Link to="/AddDoc" onClick={handleJoin} id="joinBtn">Join</Link></div></Router>
+  
+    
 
 
-    <div id="mainScreen" style={{display:"none"}}>
-      <Router>
-      <div>
-        <nav>
-          <div><Link to="/AddDoc">Add</Link></div>
-          <div><Link to="/SelectDoc">Select</Link></div>
-          <div><Link to="/ListDoc">List</Link></div>
-          <div><Link to="/SendDoc">Send</Link></div>
-       
-        </nav>
 
-  <Switch>
-    <Route path="/AddDoc">
-      <h2>Add</h2>
-      <AddDoc/>
-    </Route>
-    <Route path="/SelectDoc">
-    <h2>Select</h2>
-    <SelectDoc/>
-    </Route>
-    <Route path="/ListDoc">
-    <h2>List</h2>
-    </Route>
-    <Route path="/SendDoc">
-    <h2>Send</h2>
-    </Route>
-  </Switch>
-      </div >
-    </Router >
+      <div id="mainScreen" style={{ display: "none" }}>
+        <Router>
+          <div>
+            <nav>
+              <div><Link to="/AddDoc">Add</Link></div>
+              <div><Link to="/SelectDoc">Select</Link></div>
+              <div><Link to="/ListDoc">List</Link></div>
+              <div><Link to="/SendDoc">Send</Link></div>
 
-       </div>
-       </div>
+            </nav>
+
+            <Switch>
+              <Route path="/AddDoc">
+                <h2>Add</h2>
+                <AddDoc />
+              </Route>
+              <Route path="/SelectDoc">
+                <h2>Select</h2>
+                <SelectDoc />
+              </Route>
+              <Route path="/ListDoc">
+                <h2>List</h2>
+                <ListDoc />
+              </Route>
+              <Route path="/SendDoc">
+                <h2>Send</h2>
+              </Route>
+            </Switch>
+          </div >
+        </Router >
+
+      </div>
+    </div>
   );
 }
 

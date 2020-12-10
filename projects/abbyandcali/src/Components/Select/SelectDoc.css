@@ -71,5 +71,6 @@
 }
 #linkClick {
   color: orange;
-  font-style: italics;
+  font-style: italic;
+  text-align: center;
 }

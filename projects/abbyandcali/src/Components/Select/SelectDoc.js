@@ -4,10 +4,12 @@ import { DB } from '../FirebaseConfig'
 import List from '../List/ListDoc'
 import {
     BrowserRouter as Router,
-    Link, 
-  } from "react-router-dom";
+    Link,
+} from "react-router-dom";
 
-
+let clicksNumber = 0
+let clicksEmoji = 0
+let clicksMessage = 0
 function SelectDoc() {
     //event listener for each item (1 --> 10) to get the id of what is clicked
     let selectionObject = {
@@ -17,10 +19,19 @@ function SelectDoc() {
     }
     const [feeling, setFeeling] = useState(1)
     function Add(number) {
-        console.log(number)
-       setFeeling(number)
-        //element.style.backgroundColor = "rgb(81, 186, 186);"
-        selectionObject.feeling = number
+        setFeeling(number)
+        console.log('feeling: ' + feeling)
+        selectionObject.feeling = feeling
+        if (clicksNumber < 1) {
+            document.getElementById("box" + number).style.backgroundColor = "orange";
+            clicksNumber++
+            console.log(clicksNumber)
+        } else {
+            document.querySelectorAll('.item').forEach(item => {
+                item.style.backgroundColor = "rgb(51, 146, 146)"})
+            document.getElementById("box" + number).style.backgroundColor = "orange";
+            
+        }
     }
     document.getElementById('emojiDisplay')
 
@@ -45,22 +56,21 @@ function SelectDoc() {
 
 
     const [emojiURL, setEmojiURL] = useState('https://i.pinimg.com/originals/29/3b/84/293b84f3561f0f895b54554ff195ea1a.png')
-    function handleEmojiClick(link) {
-        console.log(link)
+    function handleEmojiClick(link, index) {
+        console.log("link: " + link, "index: " + index)
         setEmojiURL(link)
-        selectionObject.emoji = link
+        selectionObject.emoji = emojiURL
     }
     const [message, setMessage] = useState("I'm happy")
     function handleSentenceClick(sentence) {
         console.log(sentence)
         setMessage(sentence)
-        selectionObject.sentence = sentence
+        selectionObject.sentence = message
+        console.log(selectionObject)
     }
     function handleSelectionSubmit() {
-        console.log(selectionObject)
         DB.collection('emotions').doc('selection').update({ feeling: feeling, emojiURL: emojiURL, message: message })
-        //document.getElementById('selectDoc').innerHTML = <List/>
-
+        //DB.collection('emotions').doc('selection').set({selectionObject})
     }
 
 
@@ -95,7 +105,7 @@ function SelectDoc() {
             <h4 id="emojisHeader">Emojis</h4>
             <div id="emojisDisplay">
                 {emojis.map((emoji, index) => {
-                    return (<img src={emoji.text} key={index} className="emojiImage" alt='emoji' onClick={() => handleEmojiClick(`${emoji.text}`)} />)
+                    return (<img src={emoji.text} key={index} className="emojiImage" alt='emoji' onClick={() => handleEmojiClick(`${emoji.text}, ${index}`)} />)
                 })
                 }
             </div>
@@ -107,7 +117,7 @@ function SelectDoc() {
                 })
             }
             <div><Link to="/ListDoc" onClick={handleSelectionSubmit} id="linkClick">click here to finalize your selection</Link></div>
-<div id="listImport"></div>
+            <div id="listImport"></div>
 
         </div>
 
