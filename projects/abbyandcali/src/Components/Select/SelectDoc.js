@@ -12,6 +12,28 @@ function SelectDoc() {
         //element.style.backgroundColor = "rgb(81, 186, 186);"
     }
     document.getElementById('emojiDisplay')
+
+    const [emojis, setEmojis] = useState([])
+    const [sentences, setSentences] = useState([])
+    useEffect(()=>{
+        DB.collection('emotions').onSnapshot(emotionsDB=>{
+            const emojisTemp = [], sentencesTmp = [];
+            emotionsDB.forEach(emotionDB=>{
+                if(emotionDB.data().type === 'emoji'){
+                    emojisTemp.push(emotionDB.data())
+                }
+                if(emotionDB.data().type === 'sentence'){
+                    sentencesTmp.push(emotionDB.data())
+                }
+            })
+            console.log(emojisTemp)
+            setEmojis(emojisTemp);
+            setSentences(sentencesTmp)
+        })
+    },[])
+    
+
+
     //DB //for each emojiURL - add <img>emoji with class name and do format there
     
 
@@ -45,12 +67,13 @@ function SelectDoc() {
             </div>
             <h4 id="emojisHeader">Emojis</h4>
             <div id="emojiDisplay"></div>
-            {
-                    emojisArray.map((emoji, index) => {
-                        return <img src={emoji} key={index} className="emojiImage" />
-                    })
+            <div id="emojisDisplay">
+                {emojis.map((emoji, index) => {
+                    console.log(emoji.text  )
+                    return (<img src={emoji.text} key={index} className="emojiImage" alt='emoji' />)
+                })
                 }
-
+            </div>
             <h4 id="sentenceHeader">Sentences</h4>
             <div id="sentenceDisplay"></div>
 

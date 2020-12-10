@@ -4,13 +4,13 @@ import { DB } from '../FirebaseConfig'
 
 function AddDoc() {
     const [emojis, setEmojis] = useState([])
-    const [feeling, setFeeling] = useState(1)
+    //const [feeling, setFeeling] = useState(1)
     const [sentences, setSentences] = useState([])
 
     useEffect(()=>{
         DB.collection('emotions').onSnapshot(emotionsDB=>{
 
-            const emojiesTemp = [], sentencesTmp = [];
+            const emojisTemp = [], sentencesTmp = [];
 
             emotionsDB.forEach(emotionDB=>{
                
@@ -18,20 +18,38 @@ function AddDoc() {
                 if(emotionDB.data().type === 'emoji'){
                
 
-                    emojiesTemp.push(emotionDB.data())
+                    emojisTemp.push(emotionDB.data())
                 }
                 if(emotionDB.data().type === 'sentence'){
                     sentencesTmp.push(emotionDB.data())
                 }
+               
+
 
                
             })
 
-            console.log(emojiesTemp)
-            setEmojis(emojiesTemp);
+            console.log(emojisTemp)
+            setEmojis(emojisTemp);
             setSentences(sentencesTmp)
+          
         })
     },[])
+    function Add(number) {
+        console.log(number)
+        let element = document.getElementById('box' + number)
+        console.log(element)
+        //element.style.backgroundColor = "rgb(81, 186, 186);"
+        DB.collection('emotions').add({
+            text:number,
+            type:'feeling',
+            feeling:number 
+        }).then(doc=>{
+            console.log('added emotion', doc.id)
+        }).catch(e=>{
+            console.error(e)
+        })
+    }
 
     function handleEmojiUrl(e) {
         e.preventDefault();
@@ -43,7 +61,6 @@ function AddDoc() {
         DB.collection('emotions').add({
             text:url,
             type:'emoji',
-            feeling:feeling 
         }).then(doc=>{
             console.log('added emotion', doc.id)
         }).catch(e=>{
@@ -57,14 +74,17 @@ function AddDoc() {
     function handleSentence(e) {
         e.preventDefault();
         let sentenceSubmitted = e.target.children.sentenceInput.value;
+        e.target.children.sentenceInput.value = ''
         console.log("sentence: " + sentenceSubmitted)
-        setSentences([...sentences, sentenceSubmitted])
-        document.getElementById('sentenceInput').value = ''
-        document.getElementById('sentencesDisplay').innerHTML += `<p class="sentence">${sentenceSubmitted}</p>`
-        DB.collection('emotions').doc('sentences').update({
-            sentences
+       
+        DB.collection('emotions').add({
+            text:sentenceSubmitted,
+            type:'sentence',
+        }).then(doc=>{
+            console.log('added emotion', doc.id)
+        }).catch(e=>{
+            console.error(e)
         })
-
     }
     return (
         <div id="addDoc">
@@ -100,6 +120,11 @@ function AddDoc() {
                     <input type="submit" value="add sentence" id="submitBtn2" />
                 </form>
                 <div id="sentencesDisplay"></div>
+                {
+                    sentences.map((sentence, index) => {
+                        return <p key={index} className="sentence">{sentence}</p>
+                    })
+                } 
             </div>
 
         </div>
@@ -109,15 +134,6 @@ function AddDoc() {
     );
 
 }
-/*         {
-                    emojis.map((emoji, index) => {
-                        return <img src={emoji} key={index} className="emojiImage" />
-                    })
-                }
-                {
-                    sentences.map((sentence, index) => {
-                        return <p key={index} className="sentence">{sentence}</p>
-                    })
-                } */
+              
 
 export default AddDoc;
