@@ -1,9 +1,9 @@
 import './SelectDoc.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DB } from '../FirebaseConfig'
 
 function SelectDoc() {
-    
+    const [emojisArray, setEmotions] = useState([]);
     //event listener for each item (1 --> 10) to get the id of what is clicked
     function Add(number) {
         console.log(number)
@@ -11,8 +11,23 @@ function SelectDoc() {
         console.log(element)
         //element.style.backgroundColor = "rgb(81, 186, 186);"
     }
+    document.getElementById('emojiDisplay')
+    //DB //for each emojiURL - add <img>emoji with class name and do format there
+    
 
+    /*useEffect(()=> {
+        DB.collection('emotions').onSnapshot(emojisArrayDB => {
+            let emojisArray = []
+            emojisArrayDB.forEach(emojisArrayDB.data())
+            console.log(emojisArrayDB.data())
+            emojisArray.push(emojisArrayDB.data())
+            console.log("array: "+ emojisArray)
+        })
+        setEmotions(emojisArray)
 
+    })
+}, [])*/
+    
     return (
         <div id="selectDoc">
             <h4 id='rateFeelingsHeader'>Rate your feelings</h4>
@@ -29,8 +44,15 @@ function SelectDoc() {
                 <input type="button" value="10" className="item" id="box10" onClick={() => Add(10)} />
             </div>
             <h4 id="emojisHeader">Emojis</h4>
+            <div id="emojiDisplay"></div>
+            {
+                    emojisArray.map((emoji, index) => {
+                        return <img src={emoji} key={index} className="emojiImage" />
+                    })
+                }
 
             <h4 id="sentenceHeader">Sentences</h4>
+            <div id="sentenceDisplay"></div>
 
             <div id="selectScreenReminder"></div>
         </div>
