@@ -1,15 +1,15 @@
 import './SelectDoc.css';
 import { useState, useEffect } from 'react';
 import { DB } from '../FirebaseConfig'
-import List from '../List/ListDoc'
+
 import {
     BrowserRouter as Router,
     Link,
 } from "react-router-dom";
 
 let clicksNumber = 0
-let clicksEmoji = 0
-let clicksMessage = 0
+//let clicksEmoji = 0
+//let clicksMessage = 0
 function SelectDoc() {
     //event listener for each item (1 --> 10) to get the id of what is clicked
     let selectionObject = {
@@ -56,8 +56,8 @@ function SelectDoc() {
 
 
     const [emojiURL, setEmojiURL] = useState('https://i.pinimg.com/originals/29/3b/84/293b84f3561f0f895b54554ff195ea1a.png')
-    function handleEmojiClick(link, index) {
-        console.log("link: " + link, "index: " + index)
+    function handleEmojiClick(link) {
+        console.log("link: " + link)
         setEmojiURL(link)
         selectionObject.emoji = emojiURL
     }
@@ -105,7 +105,7 @@ function SelectDoc() {
             <h4 id="emojisHeader">Emojis</h4>
             <div id="emojisDisplay">
                 {emojis.map((emoji, index) => {
-                    return (<img src={emoji.text} key={index} className="emojiImage" alt='emoji' onClick={() => handleEmojiClick(`${emoji.text}, ${index}`)} />)
+                    return (<img src={emoji.text} key={index} className="emojiImage" alt='emoji' onClick={() => handleEmojiClick(`${emoji.text}`)} />)
                 })
                 }
             </div>

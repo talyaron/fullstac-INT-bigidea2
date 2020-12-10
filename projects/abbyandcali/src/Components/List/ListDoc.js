@@ -1,6 +1,10 @@
 import './ListDoc.css';
 import { useState, useEffect } from 'react';
 import { DB } from '../FirebaseConfig';
+import {
+    BrowserRouter as Router,
+    Link,
+} from "react-router-dom";
 
 function ListDoc() {
 
@@ -23,13 +27,17 @@ function ListDoc() {
         })
     }, [])
 
+    console.log(emojiURL, feeling, message)
+
 
     return (
         <div id="ListDoc">
-            <img src={emojiURL.text} id="chosenEmoji" />
+            <img src={emojiURL} id="chosenEmoji" />
             <p id="chosenFeeling">Feeling: {feeling}</p>
             <p id="chosenMessage">{message}</p>
+            <div><Link to="/SendDoc" id="linkClick">click here to send your message</Link></div>
         </div>
+        
     );
 }
 export default ListDoc;
