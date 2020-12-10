@@ -1,7 +1,7 @@
 import './App.css';
 import AddDoc from './Components/Add/AddDoc'
 import SelectDoc from './Components/Select/SelectDoc'
-import {DB} from './Components/FirebaseConfig'
+//import {DB} from './Components/FirebaseConfig'
 
 
 //import ListDoc from './Components/List/ListDoc'
@@ -47,8 +47,6 @@ function App() {
     }
     return userUID;
   }
-
-
 
 
   return (
