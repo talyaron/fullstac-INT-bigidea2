@@ -56,7 +56,8 @@ function App() {
       
 
 
-    <div id="mainScreen" style={{display:"none"}}><Router>
+    <div id="mainScreen" style={{display:"none"}}>
+      <Router>
       <div>
         <nav>
           <div><Link to="/AddDoc">Add</Link></div>

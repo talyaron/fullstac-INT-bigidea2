@@ -2,6 +2,10 @@ import './SelectDoc.css';
 import { useState, useEffect } from 'react';
 import { DB } from '../FirebaseConfig'
 import List from '../List/ListDoc'
+import {
+    BrowserRouter as Router,
+    Link, 
+  } from "react-router-dom";
 
 
 function SelectDoc() {
@@ -55,7 +59,8 @@ function SelectDoc() {
     function handleSelectionSubmit() {
         console.log(selectionObject)
         DB.collection('emotions').doc('selection').update({ feeling: feeling, emojiURL: emojiURL, message: message })
-        document.getElementById('listImport').innerHTML = "<List/>"
+        //document.getElementById('selectDoc').innerHTML = <List/>
+
     }
 
 
@@ -101,9 +106,9 @@ function SelectDoc() {
                     return (<p key={index} className="sentence" onClick={() => handleSentenceClick(`${sentence.text}`)}>{sentence.text}</p>)
                 })
             }
-            <input type="submit" value="click here to finalize your selection" onClick={handleSelectionSubmit} />
+            <div><Link to="/ListDoc" onClick={handleSelectionSubmit} id="linkClick">click here to finalize your selection</Link></div>
 <div id="listImport"></div>
-<List/>
+
         </div>
 
 

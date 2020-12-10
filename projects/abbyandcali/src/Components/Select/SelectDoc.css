@@ -69,3 +69,7 @@
     padding-left: 10px;
     padding-top: 10px;
 }
+#linkClick {
+  color: orange;
+  font-style: italics;
+}
