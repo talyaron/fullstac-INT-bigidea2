@@ -3,3 +3,11 @@
     width: 80px;
     margin-left: 120px;
 }
+#chosenFeeling {
+    color: rgb(51, 146, 146);
+    text-align: center;
+}
+#chosenMessage {
+    color: rgb(51, 146, 146);
+    text-align: center;
+}

@@ -15,22 +15,18 @@ function ListDoc() {
             setEmojiURL(emotionsDB.data().emojiURL);
             console.log(emojiURL)
 
-            setEmojiURL(emotionsDB.data().feeling);
+            setFeeling(emotionsDB.data().feeling);
             console.log(feeling)
 
-            setEmojiURL(emotionsDB.data().message);
+            setMessage(emotionsDB.data().message);
             console.log(message)
         })
     }, [])
 
 
-
-
-
-
     return (
         <div id="ListDoc">
-            <img src={emojiURL} id="chosenEmoji" />
+            <img src={emojiURL.text} id="chosenEmoji" />
             <p id="chosenFeeling">Feeling: {feeling}</p>
             <p id="chosenMessage">{message}</p>
         </div>
