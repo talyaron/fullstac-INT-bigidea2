@@ -3,13 +3,13 @@ import AddDoc from './Components/Add/AddDoc'
 import SelectDoc from './Components/Select/SelectDoc'
 //import {DB} from './Components/FirebaseConfig'
 import ListDoc from './Components/List/ListDoc'
-
-//import SendDoc from './Components/Send/SendDoc'
+import SendDoc from './Components/Send/SendDoc'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
+  //useParams
 } from "react-router-dom";
 
 
@@ -51,8 +51,8 @@ function App() {
     <div id="app">
       <h1 id="appName">EmoshApp</h1>
       <Router> <div><Link to="/AddDoc" onClick={handleJoin} id="joinBtn">Join</Link></div></Router>
-  
-    
+
+
 
 
 
@@ -69,7 +69,7 @@ function App() {
 
             <Switch>
               <Route path="/AddDoc">
-                <h2>Add</h2>
+              <h2>Add:</h2>
                 <AddDoc />
               </Route>
               <Route path="/SelectDoc">
@@ -82,6 +82,7 @@ function App() {
               </Route>
               <Route path="/SendDoc">
                 <h2>Send</h2>
+                <SendDoc />
               </Route>
             </Switch>
           </div >
@@ -91,5 +92,10 @@ function App() {
     </div>
   );
 }
+
+/*function AddHeader() {
+  const { id } = useParams();
+  return <h2>Add:{id}</h2>;
+}*/
 
 export default App;

@@ -34,8 +34,8 @@ function ListDoc() {
         <div id="ListDoc">
             <img src={emojiURL} id="chosenEmoji" />
             <p id="chosenFeeling">Feeling: {feeling}</p>
-            <p id="chosenMessage">{message}</p>
-            <div><Link to="/SendDoc" id="linkClick">click here to send your message</Link></div>
+            <p id="chosenMessage">Message: {message}</p>
+            <div><Link to="/SendDoc" id="linkClick">click here to confirm your message</Link></div>
         </div>
         
     );
