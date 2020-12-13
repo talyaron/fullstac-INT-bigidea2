@@ -69,6 +69,7 @@ function SelectDoc() {
         console.log(selectionObject)
     }
     function handleSelectionSubmit() {
+        console.log(selectionObject)
         DB.collection('emotions').doc('selection').update({ feeling: feeling, emojiURL: emojiURL, message: message })
         //DB.collection('emotions').doc('selection').set({selectionObject})
     }
