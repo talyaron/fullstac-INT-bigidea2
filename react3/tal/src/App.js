@@ -35,6 +35,7 @@ function App() {
   function handleMood(mood){
     console.log(mood)
     setMoodNumber(mood)
+  
   }
 
 
