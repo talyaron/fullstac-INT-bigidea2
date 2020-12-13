@@ -1,0 +1,18 @@
+nav {
+  width: 100%;
+  background-color: teal;
+  display: flex;
+}
+nav > div {
+  margin: 5px;
+  color: white;
+}
+
+nav > div :hover{
+background-color: teal;
+}
+
+nav > div a{
+  color: white;
+  text-decoration: none;
+}

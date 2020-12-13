@@ -1,0 +1,70 @@
+#wrapperButtonNumbers {
+    display: grid;
+    grid-template-columns: 25px 25px 25px 25px 25px 25px 25px 25px 25px 25px;
+    padding-left: -2px;
+    gap: 7px;
+  }
+  
+  .item {
+    background-color: rgb(51, 146, 146);
+    border-radius: 10px;
+    color: white;
+    border-color: grey;
+  }
+
+  h2 {
+    color: rgb(222, 131, 34);
+    text-align: center;
+    background-color: white;
+
+  }
+
+  #box10 {
+      margin-left: -2px;
+      margin-right: 2px;
+  }
+
+  #rateFeelingsHeader {
+      text-align: center;
+      margin-top: -8px;
+      margin-bottom: 4px;
+  }
+
+  #emojisHeader {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 4px;
+  }
+
+  .formURL {
+    margin-left: 39px;
+    margin-top: 8px;
+  }
+
+  .emojiImage {
+      width: 30px;
+    
+  }
+
+  #sentenceHeader {
+    text-align: center;
+    margin-top: 22px;
+    margin-bottom: 4px;
+  }
+
+  .sentence {
+      text-align: center;
+      color: white;
+      background-color: rgb(51, 146, 146);
+      border-radius: 10px;
+      border-color: grey;
+  }
+  #selectScreenReminder {
+      color: rgb(222, 131, 34);
+      text-align: center;
+      font-size: 30px;
+  }
+  .emojiImage {
+    width: 30px;
+    
+}
