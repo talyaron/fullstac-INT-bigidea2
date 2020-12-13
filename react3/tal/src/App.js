@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import './App.css';
 
+const moods = [1,2,3,4,5]
+
 function App() {
-  const [emotions, setemotions] = useState([])
+  const [emotions, setemotions] = useState([]);
+  const [moodNumber, setMoodNumber] = useState(1)
 
 
   function handleAddEmoji(e) {
@@ -29,9 +32,18 @@ function App() {
 
   }
 
+  function handleMood(mood){
+    console.log(mood)
+  }
+
 
   return (
     <div className="App">
+     
+      {moods.map((mood, index)=>{
+        return (<button onClick={()=>{handleMood(mood)}} className='mood'>{mood}</button>)
+      })}
+     
       <form onSubmit={handleAddEmoji}>
         <input type='text' name='emoji' placeholder='Add emoji' />
       </form>
