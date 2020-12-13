@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 import {useState} from 'react';
+=======
+import { Link } from "react-router-dom"
+>>>>>>> Stashed changes
 import "./main.css"
 
 function Main(){
@@ -26,6 +30,7 @@ function Main(){
 
         getUserUID()
     }
+<<<<<<< Updated upstream
 
     function getUserUID() {
         //get the uid
@@ -35,6 +40,8 @@ function Main(){
         localStorage.setItem('userUID', userUID);
         
       }
+=======
+>>>>>>> Stashed changes
 }
 
 export default Main

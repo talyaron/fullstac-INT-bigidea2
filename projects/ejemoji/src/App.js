@@ -1,5 +1,5 @@
 import './App.css';
-import MainPage from "./pages/main"
+import MainPage from "./pages/Main"
 import SelectPage from "./pages/select"
 import SendPage from "./pages/send"
 
