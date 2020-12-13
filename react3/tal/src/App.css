@@ -40,3 +40,14 @@
 .emoji{
   width: 50px;
 }
+.mood{
+  background-color: orange;
+  padding: 10px 20px;
+  margin: 10px;
+  border:none;
+  border-radius: 5px;
+}
+.mood-selected{
+  background-color: blue;
+  color: white;
+}

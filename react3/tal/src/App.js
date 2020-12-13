@@ -34,6 +34,7 @@ function App() {
 
   function handleMood(mood){
     console.log(mood)
+    setMoodNumber(mood)
   }
 
 
@@ -41,7 +42,10 @@ function App() {
     <div className="App">
      
       {moods.map((mood, index)=>{
-        return (<button onClick={()=>{handleMood(mood)}} className='mood'>{mood}</button>)
+        return (<button key={index} onClick={()=>{handleMood(mood)}} 
+        className={moodNumber===mood?'mood mood-selected':'mood'}>
+          {mood}
+          </button>)
       })}
      
       <form onSubmit={handleAddEmoji}>
