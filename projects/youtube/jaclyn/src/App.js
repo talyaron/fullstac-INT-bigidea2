@@ -1,32 +1,45 @@
 import './App.css';
+import { useState } from 'react'
 
 function App() {
-  function handleSubmitId(e) {
-    e.preventDefault()
-    console.log(e.target.children.input.value)
-    if (e.target.children.input.value.startsWith('https://www.youtube.com/watch?v=', 0)) {
-      let slicedLink = e.target.children.input.value.slice(32)
-      console.log(slicedLink);
-      document.getElementById('iframeId').src= "https://www.youtube.com/embed/" + slicedLink
-    } else {
-      let link = "https://www.youtube.com/embed/" + e.target.children.input.value
-      console.log(link)
-      document.getElementById('iframeId').src= link
-    }
+
+  const [vidoeUrl, setVideoUrl] = useState('HEQcQm21DlY')
+
+  function handleUrl(e) {
+    e.preventDefault();
+
+    let url = e.target.children.url.value;
+    setVideoUrl(url)
 
   }
+
   return (
     <div className="App">
-      <form onSubmit={handleSubmitId}>
-        <input id='input' type='text' name='input' placeholder='enter youtube video id'></input>
+      <form onSubmit={handleUrl}>
+        <input type='text' name='url'/>
+        
       </form>
-      <div id="app-header">
-        <iframe id="iframeId" width="560" height="315" src="https://www.youtube.com/embed/ZY3J3Y_OU0w"
-         allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
-      gyroscope; picture-in-picture" allowFullScreen></iframe>
-      </div>
+      <header className="App-header">
+        <iframe title='some video' width="560" height="315" src={`https://www.youtube.com/embed/${vidoeUrl}`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+       </header>
     </div>
   );
 }
 
 export default App;
+
+const uid = function () {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
+//returns the uid
+function getUserUID() {
+    //get the uid
+    let userUID = sessionStorage.getItem('userUID');
+    if (userUID === null) {
+        userUID = uid();
+        //create a uid
+        sessionStorage.setItem('userUID', userUID);
+    }
+    return userUID;
+}
