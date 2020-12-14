@@ -63,7 +63,7 @@ function App() {
 
   return (
     <div className="App">
-      <form onSubmit={handleUrl}>
+      <form onSubmit={handleUrl} className='inputTop'>
         <input type='text' name='url' />
 
       </form>
