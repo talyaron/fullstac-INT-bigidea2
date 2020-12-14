@@ -8,13 +8,17 @@ function Main() {
 
     let { userId } = useParams();
     console.log(userId)
-    
+
     //states
     const [vidoeUrl, setVideoUrl] = useState('HEQcQm21DlY');
     const [videos, setVideos] = useState([])
 
     useEffect(() => {
-        const userId = getUserUID();
+       
+        if(!userId){
+            userId= getUserUID();
+            
+        }
 
         DB.collection('lists').doc(userId).collection('videos').onSnapshot(videosDB => {
 
@@ -45,7 +49,10 @@ function Main() {
         console.log(newId)
         setVideoUrl(newId)
 
-        const userId = getUserUID();
+        if(!userId){
+            userId= getUserUID();
+        }
+
         //save to DB
         DB.collection('lists').doc(userId)
             .collection('videos').doc(newId).set({ videoId: newId, date: new Date() })
@@ -56,12 +63,15 @@ function Main() {
 
     function deleteVideo(videoId) {
 
-        const userId = getUserUID();
+        if(!userId){
+            userId= getUserUID();
+        }
+
         DB.collection('lists').doc(userId)
             .collection('videos')
             .doc(videoId)
             .delete()
-            .then(() => { console.log('delted video', videoId) })
+            .then(() => { console.log('deleted video', videoId) })
             .catch(e => { console.error(e) })
     }
 
