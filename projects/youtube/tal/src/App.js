@@ -1,29 +1,28 @@
-import './App.css';
-import { useState } from 'react'
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
-function App() {
+import Main from './Main';
 
-  const [vidoeUrl, setVideoUrl] = useState('HEQcQm21DlY')
-
-  function handleUrl(e) {
-    e.preventDefault();
-
-    let url = e.target.children.url.value;
-    setVideoUrl(url)
-
-  }
-
+export default function App() {
   return (
-    <div className="App">
-      <form onSubmit={handleUrl}>
-        <input type='text' name='url'/>
+    <Router>
+      <div>
         
-      </form>
-      <header className="App-header">
-        <iframe title='some video' width="560" height="315" src={`https://www.youtube.com/embed/${vidoeUrl}`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-       </header>
-    </div>
+
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/:userId">
+            <Main />
+          </Route>
+
+        </Switch>
+      </div>
+    </Router>
   );
 }
-
-export default App;
