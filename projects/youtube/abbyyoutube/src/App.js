@@ -8,7 +8,12 @@ function App() {
       let slicedLink = e.target.children.input.value.slice(32)
       console.log(slicedLink);
       document.getElementById('iframeId').src= "https://www.youtube.com/embed/" + slicedLink
-    } else {
+    } if (e.target.children.input.value.startsWith('youtube.com/watch?v=', 0)) {
+      let slicedLink = e.target.children.input.value.slice(20)
+      console.log(slicedLink);
+      document.getElementById('iframeId').src= "https://www.youtube.com/embed/" + slicedLink
+    } 
+    else {
       let link = "https://www.youtube.com/embed/" + e.target.children.input.value
       console.log(link)
       document.getElementById('iframeId').src= link
