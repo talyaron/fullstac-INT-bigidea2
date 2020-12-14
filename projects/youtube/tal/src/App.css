@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.inputTop{
+  position: fixed;
+  width: 100%;
+  top:0px;
+  left:0px;
+  background-color: yellow;
+}
+
+.inputTop input{
+  font-size: 2rem;
+  padding: 5px;
+}
