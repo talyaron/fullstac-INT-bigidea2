@@ -66,5 +66,11 @@
   }
   .emojiImage {
     width: 30px;
-    
+    padding-left: 10px;
+    padding-top: 10px;
+}
+#linkClick {
+  color:  rgb(222, 131, 34);
+  font-style: italic;
+  margin-left: 20px;
 }

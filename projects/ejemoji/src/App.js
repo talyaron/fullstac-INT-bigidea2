@@ -2,6 +2,7 @@ import './App.css';
 import MainPage from "./pages/main"
 import SelectPage from "./pages/select"
 import SendPage from "./pages/send"
+import "./firebase/firebaseConfig"
 
 import {
   BrowserRouter as Router,

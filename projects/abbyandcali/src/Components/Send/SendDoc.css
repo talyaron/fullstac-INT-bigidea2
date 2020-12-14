@@ -1,0 +1,15 @@
+#chosenEmoji {
+    align-items: center;
+    width: 80px;
+    margin-left: 120px;
+}
+#chosenMessage {
+    color: rgb(51, 146, 146);
+    text-align: center;
+}
+#linkClick {
+    color:  rgb(222, 131, 34);
+    font-style: italic;
+    margin-left: 42px;
+    padding-bottom: 15px;
+  }

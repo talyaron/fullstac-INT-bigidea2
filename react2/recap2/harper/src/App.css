@@ -1,0 +1,19 @@
+nav{
+  width:100%;
+  background-color:teal;
+  display:flex;
+}
+
+nav>div{
+  margin:5px;
+  color:white;
+}
+
+nav>div:hover{
+  background-color:rgb(5, 82, 82);
+}
+
+nav>div a{
+  color:white;
+  text-decoration:none;
+}
