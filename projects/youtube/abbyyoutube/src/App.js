@@ -1,10 +1,12 @@
 import './App.css';
 import { DB } from './Firebase';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
 
   const [links, setLinks] = useState([])
+  const [userId, setUserId] = useState('')
+  
 
   function handleSubmitId(e) {
     
@@ -49,7 +51,11 @@ function App() {
     }
     return userUID;
 }
-const userId = getUserUID();
+useEffect(() => {
+  const userIdVal = getUserUID();
+setUserId(userIdVal)
+}, [])
+
 
   return (
     <div className="App">
@@ -60,6 +66,7 @@ const userId = getUserUID();
         {
           links.map((link, index) => {
             return (<div id={index} key={index}>
+              <p>userId: {userId}</p>
               <iframe id="iframeId" width="560" height="315" src={link}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
     gyroscope; picture-in-picture" allowFullScreen></iframe>
