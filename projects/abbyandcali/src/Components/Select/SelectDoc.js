@@ -2,18 +2,78 @@ import './SelectDoc.css';
 import { useState, useEffect } from 'react';
 import { DB } from '../FirebaseConfig'
 
+import {
+    BrowserRouter as Router,
+    Link,
+} from "react-router-dom";
+
+let clicksNumber = 0
+//let clicksEmoji = 0
+//let clicksMessage = 0
 function SelectDoc() {
-    const [emojisArray, setEmotions] = useState([]);
     //event listener for each item (1 --> 10) to get the id of what is clicked
+    let selectionObject = {
+        feeling: '',
+        emoji: '',
+        sentence: ''
+    }
+    const [feeling, setFeeling] = useState(1)
     function Add(number) {
-        console.log(number)
-        let element = document.getElementById('box' + number)
-        console.log(element)
-        //element.style.backgroundColor = "rgb(81, 186, 186);"
+        setFeeling(number)
+        console.log('feeling: ' + feeling)
+        selectionObject.feeling = feeling
+        if (clicksNumber < 1) {
+            document.getElementById("box" + number).style.backgroundColor = "orange";
+            clicksNumber++
+            console.log(clicksNumber)
+        } else {
+            document.querySelectorAll('.item').forEach(item => {
+                item.style.backgroundColor = "rgb(51, 146, 146)"})
+            document.getElementById("box" + number).style.backgroundColor = "orange";
+            
+        }
     }
     document.getElementById('emojiDisplay')
-    //DB //for each emojiURL - add <img>emoji with class name and do format there
-    
+
+    const [emojis, setEmojis] = useState([])
+    const [sentences, setSentences] = useState([])
+    useEffect(() => {
+        DB.collection('emotions').onSnapshot(emotionsDB => {
+            const emojisTemp = [], sentencesTemp = [];
+            emotionsDB.forEach(emotionDB => {
+                if (emotionDB.data().type === 'emoji') {
+                    emojisTemp.push(emotionDB.data())
+                }
+                if (emotionDB.data().type === 'sentence') {
+                    sentencesTemp.push(emotionDB.data())
+                }
+            })
+            console.log(emojisTemp)
+            setEmojis(emojisTemp);
+            setSentences(sentencesTemp)
+        })
+    }, [])
+
+
+    const [emojiURL, setEmojiURL] = useState('https://i.pinimg.com/originals/29/3b/84/293b84f3561f0f895b54554ff195ea1a.png')
+    function handleEmojiClick(link) {
+        console.log("link: " + link)
+        setEmojiURL(link)
+        selectionObject.emoji = emojiURL
+    }
+    const [message, setMessage] = useState("I'm happy")
+    function handleSentenceClick(sentence) {
+        console.log(sentence)
+        setMessage(sentence)
+        selectionObject.sentence = message
+        console.log(selectionObject)
+    }
+    function handleSelectionSubmit() {
+        console.log(selectionObject)
+        DB.collection('emotions').doc('selection').update({ feeling: feeling, emojiURL: emojiURL, message: message })
+        //DB.collection('emotions').doc('selection').set({selectionObject})
+    }
+
 
     /*useEffect(()=> {
         DB.collection('emotions').onSnapshot(emojisArrayDB => {
@@ -27,7 +87,7 @@ function SelectDoc() {
 
     })
 }, [])*/
-    
+
     return (
         <div id="selectDoc">
             <h4 id='rateFeelingsHeader'>Rate your feelings</h4>
@@ -44,17 +104,22 @@ function SelectDoc() {
                 <input type="button" value="10" className="item" id="box10" onClick={() => Add(10)} />
             </div>
             <h4 id="emojisHeader">Emojis</h4>
-            <div id="emojiDisplay"></div>
-            {
-                    emojisArray.map((emoji, index) => {
-                        return <img src={emoji} key={index} className="emojiImage" />
-                    })
+            <div id="emojisDisplay">
+                {emojis.map((emoji, index) => {
+                    return (<img src={emoji.text} key={index} className="emojiImage" alt='emoji' onClick={() => handleEmojiClick(`${emoji.text}`)} />)
+                })
                 }
-
+            </div>
             <h4 id="sentenceHeader">Sentences</h4>
-            <div id="sentenceDisplay"></div>
+            <div id="sentencesDisplay"></div>
+            {
+                sentences.map((sentence, index) => {
+                    return (<p key={index} className="sentence" onClick={() => handleSentenceClick(`${sentence.text}`)}>{sentence.text}</p>)
+                })
+            }
+            <div><Link to="/ListDoc" onClick={handleSelectionSubmit} id="linkClick">click here to finalize your selection</Link></div>
+            <div id="listImport"></div>
 
-            <div id="selectScreenReminder"></div>
         </div>
 
 

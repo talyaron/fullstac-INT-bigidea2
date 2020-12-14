@@ -43,8 +43,8 @@
 
   .emojiImage {
       width: 30px;
-     
-      
+     padding-left: 10px;
+      padding-top: 10px;
   }
 
   #sentenceHeader {
@@ -64,4 +64,9 @@
       color: rgb(222, 131, 34);
       text-align: center;
       font-size: 30px;
+  }
+  #AddDocEnd {
+    color: rgb(222, 131, 34);
+    font-style: italic;
+    text-align: center;
   }
