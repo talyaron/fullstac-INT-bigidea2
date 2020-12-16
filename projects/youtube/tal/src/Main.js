@@ -20,8 +20,9 @@ function Main() {
             window.location.href=userId //put the user Id on the url
         }
 
+        console.log('listen....')
         DB.collection('lists').doc(userId).collection('videos').onSnapshot(videosDB => {
-
+            console.log('LISTENING TO ',userId)
             let tmpVideos = [];
             videosDB.forEach(videoDB => {
                 tmpVideos.push(videoDB.data())
@@ -52,7 +53,7 @@ function Main() {
         if(!userId){
             userId= getUserUID();
         }
-
+        console.log('saving for user', userId)
         //save to DB
         DB.collection('lists').doc(userId)
             .collection('videos').doc(newId).set({ videoId: newId, date: new Date() })
