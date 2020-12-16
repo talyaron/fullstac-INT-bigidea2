@@ -17,7 +17,7 @@ function Main() {
        
         if(!userId){
             userId= getUserUID();
-            
+            window.location.href=userId //put the user Id on the url
         }
 
         DB.collection('lists').doc(userId).collection('videos').onSnapshot(videosDB => {
