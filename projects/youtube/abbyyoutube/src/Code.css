@@ -1,0 +1,9 @@
+.Code {
+    text-align: center;
+  }
+  .deleteButton {
+    position: relative;
+    font-size: 30px;
+    background-color: rgb(220, 113, 179);
+    color: white;
+  }
