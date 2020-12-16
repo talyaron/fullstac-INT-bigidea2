@@ -5,8 +5,22 @@ import { useState, useEffect } from 'react';
 function App() {
 
   const [links, setLinks] = useState([])
+  const [linksFirebase, setLinksFirebase] = useState([])
   const [userId, setUserId] = useState('')
+  const [linkId, setLinkId] = useState('')
   
+  useEffect(() => {
+    const userId = getUserUID();
+
+    DB.collection('youtube').doc(userId).collection('videos').onSnapshot(videosDB => {
+      let videoArray = [];
+      videosDB.forEach(videoDB => {
+        videoArray.push(videoDB.data())
+      })
+      setLinksFirebase(videoArray)
+      console.log("videoArray" + videoArray)
+    })
+  }, [])
 
   function handleSubmitId(e) {
     
@@ -24,20 +38,31 @@ function App() {
 
   function handleLinkSeg(submittedValue) {
     let link = submittedValue
+    setLinkId(submittedValue)
     console.log(link);
-    DB.collection('youtube').add({ linkSegment: link })
+    //DB.collection('youtube').add({ linkSegment: link })
     //document.getElementById('iframeId').src = "https://www.youtube.com/embed/" + link
     let fullLink = "https://www.youtube.com/embed/" + link
     setLinks([...links, fullLink])
     console.log(links)
+    DB.collection('youtube').doc(userId)
+    .collection('videos').doc(link).set({ videoId: link, date: new Date() })
+    .then(() => { console.log(`Video saved; user: ${userId}; Id: ${link}`) })
+    .catch(e => console.error(e))
   }
-
-  function handleDelete(e) {
+  function handleDelete(Id) {
+    const userId = getUserUID();
+    DB.collection('youtube').doc(userId).collection(Id).doc()
+    .delete()
+    .then(()=>{console.log('delted video', linkId)})
+    .catch(e=>{console.error(e)})
+  }
+  /*function handleDelete(e, Id) {
     e.preventDefault()
     console.log(e.target.name)
     let index = e.target.name
     document.getElementById(index).remove()
-  }
+  }*/
   const uid = function () {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
   }
@@ -70,8 +95,8 @@ setUserId(userIdVal)
               <iframe id="iframeId" width="560" height="315" src={link}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
     gyroscope; picture-in-picture" allowFullScreen></iframe>
-              <div><input type='submit' value='delete' className='deleteButton' name={index} onClick={handleDelete}/></div>
-            </div>)
+              <div><input type='submit' value='delete' className='deleteButton' name={index} onClick={()=>{handleDelete({linkId})}}/></div>
+            </div>)                 
           })
         }
 
