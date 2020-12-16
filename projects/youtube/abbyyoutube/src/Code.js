@@ -60,7 +60,7 @@ function Code() {
         const userId = getUserUID();
         DB.collection('youtube').doc(userId).collection(Id).doc()
             .delete()
-            .then(() => { console.log('delted video', linkId) })
+            .then(() => { console.log('delted', Id) })
             .catch(e => { console.error(e) })
     }
 
