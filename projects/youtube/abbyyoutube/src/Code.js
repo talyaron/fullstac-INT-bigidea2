@@ -11,15 +11,15 @@ function Code() {
     const [userId, setUserId] = useState('')
 
     useEffect(() => {
-        const userId = getUserUID();
-        setUserId(userId)
+        const userId2 = getUserUID();
+        setUserId(userId2)
 
-        DB.collection('youtube').doc(userId).collection('videos').onSnapshot(videosDB => {
+        DB.collection('youtube').doc(userId2).collection('videos').onSnapshot(videosDB => {
             let videoArray = [];
             videosDB.forEach(videoDB => {
                 let vidId = videoDB.data().videoId
                 //console.log("https://www.youtube.com/watch?v="+vidId)
-                videoArray.push("https://www.youtube.com/watch?v=" + vidId)
+                videoArray.push("https://www.youtube.com/embed/" + vidId)
                 console.log("videoArray" + videoArray)
             })
             setLinksFirebase(videoArray)
@@ -48,6 +48,7 @@ function Code() {
         console.log(link);
         //DB.collection('youtube').add({ linkSegment: link })
         //document.getElementById('iframeId').src = "https://www.youtube.com/embed/" + link
+
         let fullLink = "https://www.youtube.com/embed/" + link
         setLinks([...links, fullLink])
         console.log(links)
@@ -57,8 +58,30 @@ function Code() {
             .catch(e => console.error(e))
     }
     function handleDelete(Id) {
-        const userId = getUserUID();
-        DB.collection('youtube').doc(userId).collection(Id).doc()
+
+        // const userId = getUserUID();
+        console.log(userId, Id)
+
+
+        let newId = Id
+        console.log(newId)
+
+        if (Id.startsWith('https://www.youtube.com/watch?v=')) {
+            newId = Id.slice(32, 43)
+
+        } else if (Id.startsWith('youtube.com/watch?v=')) {
+
+            newId = Id.slice(20, 31)
+
+        }
+        else if (Id.startsWith('https://www.youtube.com/embed/')) {
+
+            newId = Id.slice(30, 41 )
+
+        }
+        console.log(newId)
+
+        DB.collection('youtube').doc(userId).collection('videos').doc(newId)
             .delete()
             .then(() => { console.log('delted', Id) })
             .catch(e => { console.error(e) })
@@ -89,11 +112,10 @@ function Code() {
                         return (<div id={index} key={index}>
                             <p>userId: {userId}</p>
                             <div>
-                                <iframe id="iframeId" width="560" height="315" src={link}
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
-gyroscope; picture-in-picture" allowFullScreen></iframe>
+
+                                <iframe width="560" height="315" src={link} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
-                            <div><input type='submit' value='delete' className='deleteButton' name={index} onClick={() => { handleDelete({ linkId }) }} /></div>
+                            <div><input type='submit' value='delete' className='deleteButton' name={index} onClick={() => { handleDelete(link) }} /></div>
                         </div>)
                     })
                 }
