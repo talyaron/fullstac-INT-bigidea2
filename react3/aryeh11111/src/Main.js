@@ -1,6 +1,6 @@
 import './Main.css';
 import { useState, useEffect } from 'react';
-import {useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { DB } from './firebaseConfig';
 
@@ -14,15 +14,10 @@ function Main() {
     const [videos, setVideos] = useState([])
 
     useEffect(() => {
-       
-        if(!userId){
-            userId= getUserUID();
-            window.location.href=userId //put the user Id on the url
-        }
+        const userId = getUserUID();
 
-        console.log('listen....')
         DB.collection('lists').doc(userId).collection('videos').onSnapshot(videosDB => {
-            console.log('LISTENING TO ',userId)
+
             let tmpVideos = [];
             videosDB.forEach(videoDB => {
                 tmpVideos.push(videoDB.data())
@@ -50,10 +45,7 @@ function Main() {
         console.log(newId)
         setVideoUrl(newId)
 
-        if(!userId){
-            userId= getUserUID();
-        }
-        console.log('saving for user', userId)
+        const userId = getUserUID();
         //save to DB
         DB.collection('lists').doc(userId)
             .collection('videos').doc(newId).set({ videoId: newId, date: new Date() })
@@ -64,15 +56,12 @@ function Main() {
 
     function deleteVideo(videoId) {
 
-        if(!userId){
-            userId= getUserUID();
-        }
-
+        const userId = getUserUID();
         DB.collection('lists').doc(userId)
             .collection('videos')
             .doc(videoId)
             .delete()
-            .then(() => { console.log('deleted video', videoId) })
+            .then(() => { console.log('delted video', videoId) })
             .catch(e => { console.error(e) })
     }
 
@@ -94,19 +83,15 @@ function Main() {
                             </div>
                         )
                     })
-
                 }
             </header>
         </div>
     );
 }
 
-export default Main;
-
 const uid = function () {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
-
 //returns the uid
 function getUserUID() {
     //get the uid
@@ -118,3 +103,4 @@ function getUserUID() {
     }
     return userUID;
 }
+export default Main;
