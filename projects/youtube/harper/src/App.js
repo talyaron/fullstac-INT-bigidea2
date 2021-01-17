@@ -17,7 +17,7 @@ export default function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/:userId">
-            <About />
+            <Main />
           </Route>
   
         </Switch>
